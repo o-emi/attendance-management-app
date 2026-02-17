@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +15,7 @@ use App\Http\Controllers\AttendanceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/', [AttendanceController::class, 'index'])
-        ->name('attendance.index');
 
     Route::get('/email/verify', function () {
         return view('auth.verify_email');
@@ -25,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/');
+        return redirect('/attendance/clock_in');
     })->middleware('signed')->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {
@@ -33,4 +31,12 @@ Route::middleware(['auth'])->group(function () {
         return back()->with('message', '認証メールを再送しました。');
     })->middleware('throttle:6,1')->name('verification.send');
 
+});
+
+Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/', [AttendanceController::class, 'index'])
+        ->name('attendance.index');
+
+    Route::get('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
+        ->name('attendance.clock_in');
 });
