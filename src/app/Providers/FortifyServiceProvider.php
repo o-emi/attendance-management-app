@@ -29,6 +29,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
+
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -41,6 +42,22 @@ class FortifyServiceProvider extends ServiceProvider
             $email = (string) $request->email;
 
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        Fortify::authenticateUsing(function ($request) {
+            $user = \App\Models\User::where('email', $request->email)->first();
+
+            if (!$user || !\Hash::check($request->password, $user->password)) {
+            return null;
+            }
+
+            if (!$user->hasVerifiedEmail()) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'email' => 'メール認証が完了していません。',
+                ]);
+            }
+
+            return $user;
         });
     }
 }
