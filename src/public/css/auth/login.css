@@ -52,7 +52,7 @@
 }
 
 .login-form__btn:hover {
-    background-color: #e55337;
+    background-color: #ef3548;
 }
 
 .register-link-area {
@@ -60,10 +60,17 @@
     margin-top: 15px;
 }
 
-.login-link {
+.register-link {
     text-decoration: none;
     color: #419DFF;
     font-size: 14px;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.register-link:hover {
+    color: #1a7be0;
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 850px) and (min-width: 768px) {
