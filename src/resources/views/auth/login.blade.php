@@ -35,7 +35,9 @@
         </form>
 
         <div class="register-link-area">
-            <a href="/register" class="register-link">会員登録はこちら</a>
+            <a href="{{ route('register') }}" class="register-link">
+                会員登録はこちら
+            </a>
         </div>
     </div>
 </div>
