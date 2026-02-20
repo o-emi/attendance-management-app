@@ -4,17 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::middleware('guest')->group(function () {
+    Route::post('/login', [AuthController::class, 'loginRedirect']);
+    Route::post('/register', [AuthController::class, 'registerRedirect']);
+});
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/email/verify', function () {
