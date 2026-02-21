@@ -33,6 +33,8 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/', [AttendanceController::class, 'index'])
         ->name('attendance.index');
 
+    Route::get('/attendance', [AttendanceController::class, 'clockIn'])->name('attendance');
+
     Route::get('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
         ->name('attendance.clock_in');
 });
