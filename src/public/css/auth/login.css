@@ -73,23 +73,44 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 850px) and (min-width: 768px) {
-    .login-form {
-        width: 400px;
-        margin-top: 40px;
-        padding: 25px;
+@media (min-width:768px) and (max-width:850px){
+    .login-form{
+        width:90%;
+        padding:25px;
+        margin-top:40px;
     }
 
-    .login-form__heading {
-        font-size: 22px;
+    .login-form__heading{ font-size:22px; }
+    .login-form__label{ font-size:15px; }
+
+    .login-form__input{
+        padding:10px;
+        font-size:14px;
     }
 
-    .login-form__label {
-        font-size: 15px;
+    .login-form__btn{
+        font-size:15px;
+        padding:11px;
+    }
+}
+
+@media (min-width:1400px) and (max-width:1540px){
+    .login-form{
+        width:520px;
+        padding:35px;
+        margin-top:60px;
     }
 
-    .login-form__btn {
-        font-size: 15px;
-        padding: 10px;
+    .login-form__heading{ font-size:26px; }
+    .login-form__label{ font-size:17px; }
+
+    .login-form__input{
+        padding:12px;
+        font-size:15px;
+    }
+
+    .login-form__btn{
+        padding:14px;
+        font-size:17px;
     }
 }
