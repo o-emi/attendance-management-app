@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -11,8 +12,4 @@ class AttendanceController extends Controller
         return view('attendance.index');
     }
 
-    public function clockIn()
-    {
-        return view('attendance.clock_in');
-    }
 }

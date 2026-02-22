@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
+
     Route::post('/register', [AuthController::class, 'registerRedirect']);
 });
 
@@ -30,11 +31,17 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/', [AttendanceController::class, 'index'])
+
+    // トップ（ダッシュボード的役割）
+    Route::get('/', fn() => redirect()->route('attendance.index'));
+
+    // 勤怠打刻画面
+    Route::get('/attendance', [AttendanceController::class, 'index'])
         ->name('attendance.index');
 
-    Route::get('/attendance', [AttendanceController::class, 'clockIn'])->name('attendance');
+    // 打刻処理
+    Route::post('/attendance', [AttendanceController::class, 'punch'])
+        ->name('attendance.punch');
 
-    Route::get('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
-        ->name('attendance.clock_in');
-});
+    });
+
