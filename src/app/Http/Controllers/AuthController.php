@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function loginRedirect(LoginRequest $request)
     {
         app(FortifyLogin::class)->store($request);
-        return redirect()->route('attendance');
+        return redirect()->route('attendance.index');
     }
 
     public function registerRedirect(Request $request)
@@ -22,6 +22,6 @@ class AuthController extends Controller
             $request,
             app(CreatesNewUsers::class)
         );
-        return redirect()->route('attendance');
+        return redirect()->route('attendance.index');
     }
 }
