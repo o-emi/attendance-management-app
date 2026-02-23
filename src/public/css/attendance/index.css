@@ -19,14 +19,10 @@
     font-weight: bold;
 }
 
-.punch-panel__badge--off-duty {
+.punch-panel__badge--off-duty,
+.punch-panel__badge--on-duty  {
     background-color: #d1d1d1;
     color: #555555;
-}
-
-.punch-panel__badge--on-duty {
-    background-color: #000000;
-    color: #ffffff;
 }
 
 .punch-panel__date {
@@ -45,7 +41,7 @@
 }
 
 .punch-panel__time-text {
-    font-size: 110px;
+    font-size: 105px;
     font-weight: bold;
     margin: 0;
     line-height: 1.1;
@@ -53,8 +49,17 @@
     color: #000000;
 }
 
-.punch-panel__actions {
+.punch-panel__actions{
     margin-top: 50px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.punch-panel__message{
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 .punch-panel__button {
@@ -77,4 +82,55 @@
 .punch-panel__button--disabled {
     background-color: #bbbbbb;
     cursor: not-allowed;
+}
+
+@media (min-width:1400px) and (max-width:1540px) {
+
+    .punch-panel {
+        max-width: 600px;
+    }
+
+    .punch-panel__date-text {
+        font-size: 42px;
+    }
+
+    .punch-panel__time-text {
+        font-size: 105px;
+    }
+
+    .punch-panel__button {
+        width: 300px;
+        height: 80px;
+        font-size: 30px;
+    }
+}
+
+@media (min-width:768px) and (max-width:850px) {
+
+    .attendance {
+        align-items: flex-start;
+        padding-top: 100px;
+    }
+
+    .punch-panel {
+        max-width: 420px;
+    }
+
+    .punch-panel__date-text {
+        font-size: 28px;
+    }
+
+    .punch-panel__time-text {
+        font-size: 64px;
+    }
+
+    .punch-panel__button {
+        width: 220px;
+        height: 60px;
+        font-size: 22px;
+    }
+
+    .punch-panel__actions {
+        margin-top: 40px;
+    }
 }

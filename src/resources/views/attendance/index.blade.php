@@ -8,13 +8,18 @@
 
 @section('content')
 <div class="attendance">
+
     <div class="attendance__inner">
 
         <div class="punch-panel">
 
             <div class="punch-panel__status">
-                {{-- 勤務状況に応じて --off-duty / --on-duty を切り替え --}}
-                <span class="punch-panel__badge punch-panel__badge--off-duty">勤務外</span>
+                <span class="punch-panel__badge
+                    @if($status==='勤務外') punch-panel__badge--off-duty
+                    @else punch-panel__badge--on-duty
+                    @endif">
+                        {{ $status }}
+                </span>
             </div>
 
             <div class="punch-panel__date">
@@ -28,15 +33,36 @@
             </div>
 
             <div class="punch-panel__actions">
-                <form action="{{ route('attendance.punch') }}" method="POST" class="punch-panel__form">
-                    @csrf
-                    {{-- ボタン文言も状況に合わせて「出勤」「退勤」に --}}
-                    <button type="submit" class="punch-panel__button">出勤</button>
-                </form>
-            </div>
-            
-        </div>
 
+                @if($status === '勤務外')
+                    <button class="punch-panel__button">出勤</button>
+
+                @elseif($status === '出勤中')
+                    <button class="punch-panel__button">休憩</button>
+                    <button class="punch-panel__button">退勤</button>
+
+                @elseif($status === '休憩中')
+                    <button class="punch-panel__button">休憩戻</button>
+
+                @elseif($status === '退勤済')
+                    <p class="punch-panel__message">お疲れ様でした。</p>
+                @endif
+
+            </div>
+        </div>
     </div>
+
+    <script>
+    function updateTime() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2,'0');
+        const m = String(now.getMinutes()).padStart(2,'0');
+        const s = String(now.getSeconds()).padStart(2,'0');
+        document.getElementById('current-time').textContent = `${h}:${m}:${s}`;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+    </script>
+
 </div>
 @endsection
