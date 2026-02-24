@@ -4,17 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::middleware('guest')->group(function () {
+    Route::post('/login', [AuthController::class, 'loginRedirect']);
+
+    Route::post('/register', [AuthController::class, 'registerRedirect']);
+});
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/email/verify', function () {
@@ -34,9 +31,17 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/', [AttendanceController::class, 'index'])
+
+    // トップ（ダッシュボード的役割）
+    Route::get('/', fn() => redirect()->route('attendance.index'));
+
+    // 勤怠打刻画面
+    Route::get('/attendance', [AttendanceController::class, 'index'])
         ->name('attendance.index');
 
-    Route::get('/attendance/clock_in', [AttendanceController::class, 'clockIn'])
-        ->name('attendance.clock_in');
-});
+    // 打刻処理
+    Route::post('/attendance', [AttendanceController::class, 'punch'])
+        ->name('attendance.punch');
+
+    });
+

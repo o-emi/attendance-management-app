@@ -1,0 +1,136 @@
+.attendance {
+    background-color: #f2f2f2;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.punch-panel {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.punch-panel__badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.punch-panel__badge--off-duty,
+.punch-panel__badge--on-duty  {
+    background-color: #d1d1d1;
+    color: #555555;
+}
+
+.punch-panel__date {
+    margin-top: 25px;
+}
+
+.punch-panel__date-text {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 0;
+    color: #333333;
+}
+
+.punch-panel__time {
+    margin-top: 10px;
+}
+
+.punch-panel__time-text {
+    font-size: 105px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: #000000;
+}
+
+.punch-panel__actions{
+    margin-top: 50px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.punch-panel__message{
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.punch-panel__button {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    width: 260px;
+    height: 70px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.punch-panel__button:hover {
+    opacity: 0.8;
+}
+
+.punch-panel__button--disabled {
+    background-color: #bbbbbb;
+    cursor: not-allowed;
+}
+
+@media (min-width:1400px) and (max-width:1540px) {
+
+    .punch-panel {
+        max-width: 600px;
+    }
+
+    .punch-panel__date-text {
+        font-size: 42px;
+    }
+
+    .punch-panel__time-text {
+        font-size: 105px;
+    }
+
+    .punch-panel__button {
+        width: 300px;
+        height: 80px;
+        font-size: 30px;
+    }
+}
+
+@media (min-width:768px) and (max-width:850px) {
+
+    .attendance {
+        align-items: flex-start;
+        padding-top: 100px;
+    }
+
+    .punch-panel {
+        max-width: 420px;
+    }
+
+    .punch-panel__date-text {
+        font-size: 28px;
+    }
+
+    .punch-panel__time-text {
+        font-size: 64px;
+    }
+
+    .punch-panel__button {
+        width: 220px;
+        height: 60px;
+        font-size: 22px;
+    }
+
+    .punch-panel__actions {
+        margin-top: 40px;
+    }
+}
