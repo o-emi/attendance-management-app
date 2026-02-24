@@ -35,11 +35,17 @@
             <div class="punch-panel__actions">
 
                 @if($status === '勤務外')
-                    <button class="punch-panel__button">出勤</button>
+                <form method="POST" action="{{ route('attendance.punch') }}">
+                    @csrf
+                    <button type="submit" class="punch-panel__button">出勤</button>
+                </form>
 
                 @elseif($status === '出勤中')
-                    <button class="punch-panel__button">休憩</button>
-                    <button class="punch-panel__button">退勤</button>
+                <!-- 休憩は後で記述する -->
+                <form method="POST" action="{{ route('attendance.punch') }}">
+                    @csrf
+                    <button type="submit" class="punch-panel__button">退勤</button>
+                </form>
 
                 @elseif($status === '休憩中')
                     <button class="punch-panel__button">休憩戻</button>
