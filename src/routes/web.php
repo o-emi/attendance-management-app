@@ -5,6 +5,7 @@ use App\Http\Controllers\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminAuthController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
@@ -13,6 +14,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+
 
     Route::get('/email/verify', function () {
         return view('auth.verify_email');
@@ -44,4 +46,18 @@ Route::middleware(['auth','verified'])->group(function () {
         ->name('attendance.punch');
 
     });
+
+    // 管理者ログイン
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
+    ->name('admin.auth.login');
+
+Route::post('/admin/login', [AdminAuthController::class, 'login'])
+    ->name('admin.auth.login.submit');
+
+// 管理画面（admin専用）
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
+    Route::get('/', function () {
+        return view('admin.index');
+    })->name('admin.index');
+});
 
