@@ -10,7 +10,7 @@
 <div class="admin-login-form">
     <h2 class="admin-login-form__heading content__heading">管理者ログイン</h2>
     <div class="admin-login-form__inner">
-        <form class="admin-login-form__form" action="{{ route('login') }}" method="post" novalidate>
+        <form class="admin-login-form__form" action="{{ route('admin.auth.login') }}" method="post" novalidate>
             @csrf
             <div class="admin-login-form__group">
                 <label class="admin-login-form__label" for="email">メールアドレス</label>
