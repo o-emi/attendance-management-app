@@ -27,7 +27,7 @@
                         <li class="nav-item"><a href="/application" class="nav-link">申請</a></li>
                         @auth
                         <li class="nav-item">
-                            <form   form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="nav-link-btn">ログアウト</button>
                             </form>

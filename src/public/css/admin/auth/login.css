@@ -1,0 +1,110 @@
+.admin-login-form {
+    width: 100%; /* 親要素に対して全幅 */
+    max-width: 600px; /* ボックスの最大幅を少し広めに設定 */
+    background-color: white;
+    margin: 50px auto; /* 左右中央寄せ */
+    padding: 60px 40px; /* 上下の余白を広げるとより綺麗です */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.admin-login-form__heading {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.admin-login-form__inner {
+    width: 80%; /* ボックスの中で少し余裕を持たせる */
+    margin: 0 auto; /* フォーム自体を中央に配置 */
+}
+
+.admin-login-form__group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.admin-login-form__label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.admin-login-form__input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.admin-login-form__error-message {
+    color:#ef3548;;
+    font-size: 14px;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.admin-login-form__btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.admin-login-form__btn:hover {
+    background-color:red;
+}
+
+
+@media (min-width:768px) and (max-width:850px){
+    .admin-login-form{
+        width:90%;
+        padding:25px;
+        margin-top:40px;
+    }
+
+    .admin-login-form__heading{ font-size:22px; }
+    .admin-login-form__label{ font-size:15px; }
+
+    .admin-login-form__input{
+        padding:10px;
+        font-size:14px;
+    }
+
+    .admin-login-form__btn{
+        font-size:15px;
+        padding:11px;
+    }
+}
+
+@media (min-width:1400px) and (max-width:1540px){
+    .admin-login-form{
+        width:520px;
+        padding:35px;
+        margin-top:60px;
+    }
+
+    .admin-login-form__heading{ font-size:26px; }
+    .admin-login-form__label{ font-size:17px; }
+
+    .admin-login-form__input{
+        padding:12px;
+        font-size:15px;
+    }
+
+    .admin-login-form__btn{
+        padding:14px;
+        font-size:17px;
+    }
+}
