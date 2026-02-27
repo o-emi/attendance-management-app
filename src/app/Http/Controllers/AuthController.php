@@ -13,6 +13,13 @@ class AuthController extends Controller
     public function loginRedirect(LoginRequest $request)
     {
         app(FortifyLogin::class)->store($request);
+
+        $user = auth()->user();
+
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.index');
+        }
+
         return redirect()->route('attendance.index');
     }
 
@@ -24,4 +31,17 @@ class AuthController extends Controller
         );
         return redirect()->route('attendance.index');
     }
+
+    public function logoutRedirect(Request $request)
+    {
+        $isAdmin = auth()->user()?->role === 'admin';
+
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return $isAdmin
+            ? redirect()->route('admin.auth.login')
+            : redirect()->route('login');
+        }
 }
