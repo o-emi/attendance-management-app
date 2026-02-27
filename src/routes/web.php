@@ -9,20 +9,17 @@ use App\Http\Controllers\AdminAuthController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
-
     Route::post('/register', [AuthController::class, 'registerRedirect']);
 });
 
 Route::middleware(['auth'])->group(function () {
-
-
     Route::get('/email/verify', function () {
         return view('auth.verify_email');
     })->name('verification.notice');
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/attendance/clock_in');
+        return redirect('/attendance/index');
     })->middleware('signed')->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {
@@ -30,34 +27,32 @@ Route::middleware(['auth'])->group(function () {
         return back()->with('message', '認証メールを再送しました。');
     })->middleware('throttle:6,1')->name('verification.send');
 
+    Route::post('/logout', [AuthController::class, 'logoutRedirect'])
+        ->name('logout');
 });
 
 Route::middleware(['auth','verified'])->group(function () {
 
-    // トップ（ダッシュボード的役割）
     Route::get('/', fn() => redirect()->route('attendance.index'));
 
-    // 勤怠打刻画面
     Route::get('/attendance', [AttendanceController::class, 'index'])
         ->name('attendance.index');
 
-    // 打刻処理
     Route::post('/attendance', [AttendanceController::class, 'punch'])
         ->name('attendance.punch');
 
     });
 
-    // 管理者ログイン
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
     ->name('admin.auth.login');
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])
-    ->name('admin.auth.login.submit');
+    ->name('admin.auth.login');
 
-// 管理画面（admin専用）
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
     Route::get('/', function () {
-        return view('admin.index');
-    })->name('admin.index');
+        return view('admin.attendance.list');
+    })->name('admin.attendance.list');
 });
 
