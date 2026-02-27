@@ -1,4 +1,4 @@
-@extends('layouts.login_register')
+@extends('layouts.admin')
 
 @section('title', '勤怠一覧(管理者)')
 
