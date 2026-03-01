@@ -2,15 +2,15 @@
     background-color: #000000;
     color: #ffffff;
     height: 60px;
-    padding: 0 40px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
 }
 
 .header__inner {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    /* max-width: 1200px; */
+    /* margin: 0; */
     display: flex;
     justify-content: space-between;
     align-items: center;
