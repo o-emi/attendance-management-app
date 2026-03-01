@@ -1,0 +1,118 @@
+/* --- Base Styles --- */
+.attendance {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+.attendance__inner {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.attendance__title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    padding-left: 15px;
+    border-left: 5px solid #000;
+}
+
+/* --- Date Nav Block --- */
+.date-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.date-nav__link {
+    color: #888;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.date-nav__link:hover {
+    opacity: 0.7;
+}
+
+.date-nav__current {
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.attendance__table-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.attendance-table__header {
+    padding: 15px;
+    color: #888;
+    font-weight: normal;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table__item {
+    padding: 15px;
+    font-size: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table__link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance__inner {
+    width: 95%;
+    }
+
+    .attendance-table__header,
+    .attendance-table__item {
+    padding: 12px 5px;
+    font-size: 14px;
+    }
+
+    .date-nav {
+    padding: 12px 20px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance__inner {
+    max-width: 1200px;
+    }
+
+    .attendance__title {
+    font-size: 28px;
+    }
+
+    .attendance-table__header,
+    .attendance-table__item {
+    padding: 20px;
+    font-size: 16px;
+    }
+
+    .date-nav {
+    padding: 20px 40px;
+    }
+}

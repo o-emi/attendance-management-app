@@ -16,4 +16,9 @@ class Attendance extends Model
         'clock_out',
         'status'
     ];
+
+    public function user()
+    {
+    return $this->belongsTo(\App\Models\User::class);
+    }
 }

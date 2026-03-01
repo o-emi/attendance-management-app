@@ -35,7 +35,7 @@
                         @auth
                             @if(auth()->user()->role === 'admin')
                             <li class="nav-item">
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('admin.auth.logout') }}">
                                     @csrf
                                     <button type="submit" class="nav-link-btn">ログアウト</button>
                                 </form>

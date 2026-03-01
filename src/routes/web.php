@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\AttendanceController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
@@ -19,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/attendance/index');
+        return redirect()->route('attendance.index');
     })->middleware('signed')->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {
@@ -47,12 +48,15 @@ Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
     ->name('admin.auth.login');
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])
-    ->name('admin.auth.login');
+    ->name('admin.auth.login.post');
 
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
+    ->name('admin.auth.logout');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
-    Route::get('/', function () {
-        return view('admin.attendance.list');
-    })->name('admin.attendance.list');
-});
+    Route::get('/', [AdminAttendanceController::class, 'index'])
+        ->name('admin.attendance.list');
 
+    Route::get('/attendance/{attendance}',[AdminAttendanceController::class, 'show'])
+        ->name('admin.attendance.show');
+});
