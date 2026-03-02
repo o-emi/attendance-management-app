@@ -23,7 +23,7 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
+        $attendance = Attendance::with('user', 'breakTimes')->findOrFail($id);
 
         return view('admin.attendance.show', compact('attendance'));
     }
