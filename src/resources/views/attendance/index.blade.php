@@ -41,14 +41,22 @@
                 </form>
 
                 @elseif($status === '出勤中')
-                <!-- 休憩は後で記述する -->
-                <form method="POST" action="{{ route('attendance.punch') }}">
-                    @csrf
-                    <button type="submit" class="punch-panel__button">退勤</button>
-                </form>
+                    <form method="POST" action="{{ route('attendance.punch') }}">
+                        @csrf
+                        <button type="submit" class="punch-panel__button">退勤</button>
+                    </form>
+
+                    <form method="POST" action="{{ route('attendance.break.start') }}">
+                        @csrf
+                        <button type="submit" class="punch-panel__button">休憩入</button>
+                    </form>
+
 
                 @elseif($status === '休憩中')
-                    <button class="punch-panel__button">休憩戻</button>
+                    <form method="POST" action="{{ route('attendance.break.end') }}">
+                        @csrf
+                        <button type="submit" class="punch-panel__button">休憩戻</button>
+                    </form>
 
                 @elseif($status === '退勤済')
                     <p class="punch-panel__message">お疲れ様でした。</p>
