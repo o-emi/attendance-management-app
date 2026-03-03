@@ -15,14 +15,17 @@ class AttendanceController extends Controller
         $date = $request->input('date', Carbon::today()->toDateString());
 
         $users = User::with(['attendances' => function ($query) use ($date) {
-        $query->whereDate('work_date', $date);
+        $query->whereDate('work_date', $date)
+            ->with('breakTimes');
         }])->get();
 
         return view('admin.attendance.list', compact('users', 'date'));
     }
 
-    public function show(Attendance $attendance)
+    public function show($id)
     {
+        $attendance = Attendance::with('user', 'breakTimes')->findOrFail($id);
+
         return view('admin.attendance.show', compact('attendance'));
     }
 }

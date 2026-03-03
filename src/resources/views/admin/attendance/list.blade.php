@@ -49,7 +49,27 @@
                 @foreach($users as $user)
                     @php
                         $attendance = $user->attendances->first();
-                    @endphp
+                            $breakTotal = 0;
+                            $workTotal = 0;
+                            $actualWork = 0;
+
+                            if ($attendance) {
+
+                                foreach ($attendance->breakTimes as $break) {
+                                    if ($break->break_start && $break->break_end) {
+                                        $breakTotal += \Carbon\Carbon::parse($break->break_start)
+                                            ->diffInSeconds($break->break_end);
+                                    }
+                                }
+
+                                if ($attendance->clock_in && $attendance->clock_out) {
+                                    $workTotal = \Carbon\Carbon::parse($attendance->clock_in)
+                                        ->diffInSeconds($attendance->clock_out);
+
+                                    $actualWork = $workTotal - $breakTotal;
+                                }
+                            }
+                        @endphp
 
                     <tr class="attendance-table__row">
                         <td class="attendance-table__item">
@@ -69,11 +89,11 @@
                         </td>
 
                         <td class="attendance-table__item">
-                            {{ $attendance?->break_time ?? '' }}
+                            {{ $breakTotal ? gmdate('H:i', $breakTotal) : '' }}
                         </td>
 
                         <td class="attendance-table__item">
-                            {{ $attendance?->total_time ?? '' }}
+                            {{ $actualWork ? gmdate('H:i', $actualWork) : '' }}
                         </td>
 
                         <td class="attendance-table__item">

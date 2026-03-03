@@ -42,6 +42,14 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('/attendance', [AttendanceController::class, 'punch'])
         ->name('attendance.punch');
 
+    Route::post('/attendance/break/start',
+    [AttendanceController::class, 'breakStart'])
+        ->name('attendance.break.start');
+
+    Route::post('/attendance/break/end',
+    [AttendanceController::class, 'breakEnd'])
+        ->name('attendance.break.end');
+
     });
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
@@ -54,9 +62,9 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
     ->name('admin.auth.logout');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
-    Route::get('/', [AdminAttendanceController::class, 'index'])
+    Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('admin.attendance.list');
 
-    Route::get('/attendance/{attendance}',[AdminAttendanceController::class, 'show'])
+    Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])
         ->name('admin.attendance.show');
 });
