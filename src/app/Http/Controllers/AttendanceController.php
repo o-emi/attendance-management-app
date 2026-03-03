@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\BreakTime;
 
 class AttendanceController extends Controller
 {
     public function index()
     {
-        $today = Attendance::where('user_id', auth()->id())
+        $today = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
             ->whereDate('work_date', today())
             ->first();
 
@@ -17,7 +19,12 @@ class AttendanceController extends Controller
             $status = '勤務外';
 
         } elseif ($today->clock_in && !$today->clock_out) {
-            $status = '出勤中';
+
+            $onBreak = $today->breakTimes()
+                ->whereNull('break_end')
+                ->exists();
+
+            $status = $onBreak ? '休憩中' : '出勤中';
 
         } else {
             $status = '退勤済';
@@ -36,7 +43,6 @@ class AttendanceController extends Controller
             ]
         );
 
-        // 出勤処理
         if (!$today->clock_in) {
 
             $today->update([
@@ -47,7 +53,6 @@ class AttendanceController extends Controller
             return back();
         }
 
-        // 退勤処理
         if (!$today->clock_out) {
 
             $today->update([
@@ -56,6 +61,40 @@ class AttendanceController extends Controller
             ]);
 
             return back()->with('message', 'お疲れ様でした。');
+        }
+
+        return back();
+    }
+
+    public function breakStart()
+    {
+        $today = Attendance::where('user_id', auth()->id())
+            ->whereDate('work_date', today())
+            ->firstOrFail();
+
+        BreakTime::create([
+            'attendance_id' => $today->id,
+            'break_start' => now(),
+        ]);
+
+        return back();
+    }
+
+    public function breakEnd()
+    {
+        $today = Attendance::where('user_id', auth()->id())
+            ->whereDate('work_date', today())
+            ->firstOrFail();
+
+        $break = $today->breakTimes()
+            ->whereNull('break_end')
+            ->latest()
+            ->first();
+
+        if ($break) {
+            $break->update([
+                'break_end' => now(),
+            ]);
         }
 
         return back();
