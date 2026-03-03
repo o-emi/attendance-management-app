@@ -12,7 +12,7 @@
 
     <form action="#" method="POST" class="attendance-detail__card">
         @csrf
-        {{-- 名前行 --}}
+
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">名前</label>
             <div class="attendance-detail__content">
@@ -20,16 +20,14 @@
             </div>
         </div>
 
-        {{-- 日付行 --}}
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">日付</label>
             <div class="attendance-detail__content">
-                <span class="attendance-detail__text--bold">2023年</span>
-                <span class="attendance-detail__text--bold">6月1日</span>
+                <span class="attendance-detail__text--bold">{{ \Carbon\Carbon::parse($attendance->clock_in)->format('Y年') }}</span>
+                <span class="attendance-detail__text--bold">{{ \Carbon\Carbon::parse($attendance->clock_in)->format('n月j日') }}</span>
             </div>
         </div>
 
-        {{-- 出勤・退勤行 --}}
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">出勤・退勤</label>
             <div class="attendance-detail__content">
@@ -39,17 +37,26 @@
             </div>
         </div>
 
-        {{-- 休憩行 --}}
-        <div class="attendance-detail__group">
-            <label class="attendance-detail__label">休憩</label>
-            <div class="attendance-detail__content">
-                <input type="text" class="attendance-detail__input" value="12:00">
-                <span class="attendance-detail__separator">〜</span>
-                <input type="text" class="attendance-detail__input" value="13:00">
-            </div>
-        </div>
+                @foreach($attendance->breakTimes as $index => $break)
+                    <div class="attendance-detail__group">
+                        <label class="attendance-detail__label">
+                            休憩{{ $index > 0 ? $index + 1 : '' }}
+                        </label>
 
-        {{-- 備考行 --}}
+                        <div class="attendance-detail__content">
+                            <input type="text"
+                                class="attendance-detail__input"
+                                value="{{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }}">
+
+                            <span class="attendance-detail__separator">〜</span>
+
+                            <input type="text"
+                                class="attendance-detail__input"
+                                value="{{ $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '' }}">
+                        </div>
+                    </div>
+                @endforeach
+
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">備考</label>
             <div class="attendance-detail__content">
@@ -57,10 +64,10 @@
             </div>
         </div>
 
-        {{-- ボタンエリア --}}
         <div class="attendance-detail__actions">
             <button type="submit" class="attendance-detail__submit-btn">修正</button>
         </div>
+
     </form>
 </div>
 @endsection
