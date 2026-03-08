@@ -50,6 +50,9 @@ Route::middleware(['auth','verified'])->group(function () {
     [AttendanceController::class, 'breakEnd'])
         ->name('attendance.break.end');
 
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])
+    ->name('attendance.list');
+
     });
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
