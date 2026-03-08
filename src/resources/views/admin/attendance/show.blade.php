@@ -31,9 +31,17 @@
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">出勤・退勤</label>
             <div class="attendance-detail__content">
-                <input type="text" class="attendance-detail__input" value="{{ $attendance->clock_in }}">
+                <input type="time"
+                        name="clock_in"
+                        class="attendance-detail__input"
+                        value="{{ $attendance->clock_in?->format('H:i') }}">
+
                 <span class="attendance-detail__separator">〜</span>
-                <input type="text" class="attendance-detail__input" value="{{ $attendance->clock_out }}">
+
+                <input type="time"
+                    name="clock_out"
+                    class="attendance-detail__input"
+                    value="{{ $attendance->clock_out?->format('H:i') }}">
             </div>
         </div>
 
