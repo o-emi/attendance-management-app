@@ -70,4 +70,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
 
     Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])
         ->name('admin.attendance.show');
+
+    Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('admin.attendance.update');
 });
