@@ -50,6 +50,9 @@ Route::middleware(['auth','verified'])->group(function () {
     [AttendanceController::class, 'breakEnd'])
         ->name('attendance.break.end');
 
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])
+    ->name('attendance.list');
+
     });
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
@@ -67,4 +70,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
 
     Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])
         ->name('admin.attendance.show');
+
+    Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('admin.attendance.update');
 });

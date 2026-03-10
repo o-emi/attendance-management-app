@@ -18,6 +18,12 @@ class Attendance extends Model
         'status'
     ];
 
+    protected $casts = [
+        'clock_in' => 'datetime',
+        'clock_out' => 'datetime',
+        'work_date' => 'date',
+    ];
+
     public function user()
     {
     return $this->belongsTo(\App\Models\User::class);

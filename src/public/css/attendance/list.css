@@ -1,0 +1,112 @@
+.attendance {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.attendance__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.month-selector__link {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 0 15px;
+    text-decoration: none;
+    color: #888;
+    min-width: 80px;
+}
+
+.month-selector__current {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.month-selector__link--prev {
+    justify-content: flex-start;
+}
+
+.month-selector__link--next {
+    justify-content: flex-end;
+}
+
+.attendance__table-wrapper {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-table__header {
+    padding: 20px;
+    color: #888;
+    font-size: 14px;
+    border-bottom: 2px solid #f0f0f0;
+    text-align: center;
+}
+
+.attendance-table__item {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.attendance-table__link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.attendance-table__link:hover {
+    text-decoration: underline;
+}
+
+.attendance-table__row--empty {
+    background-color: #fafafa;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .attendance {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .attendance__title {
+        font-size: 26px;
+    }
+
+    .attendance-table__header,
+    .attendance-table__item {
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .month-selector__current {
+        font-size: 22px;
+    }
+}

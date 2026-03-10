@@ -99,4 +99,14 @@ class AttendanceController extends Controller
 
         return back();
     }
+
+    public function list()
+    {
+        $attendances = auth()->user()->attendances()
+            ->with('breakTimes')
+            ->orderBy('work_date', 'desc')
+            ->get();
+
+        return view('attendance.list', compact('attendances'));
+    }
 }
