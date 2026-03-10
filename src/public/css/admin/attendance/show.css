@@ -108,6 +108,12 @@
     cursor: pointer;
 }
 
+.attendance-detail__error-text{
+    color: #d8000c;
+    font-size: 14px;
+    margin: 3px 0;
+}
+
 .attendance-detail__submit-btn:hover {
     opacity: 0.8;
 }
