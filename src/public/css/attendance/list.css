@@ -13,28 +13,36 @@
 
 .month-selector {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px 0;
+    width: 100%;
 }
 
 .month-selector__link {
-    text-decoration: none;
-    color: #4b4b4b;
+    display: flex;
+    align-items: center;
     font-size: 14px;
-    border: 1px solid #ccc;
-    padding: 5px 15px;
-    border-radius: 4px;
-    background-color: #fff;
+    padding: 0 15px;
+    text-decoration: none;
+    color: #888;
+    min-width: 80px;
 }
 
 .month-selector__current {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+}
+
+.month-selector__link--prev {
+    justify-content: flex-start;
+}
+
+.month-selector__link--next {
+    justify-content: flex-end;
 }
 
 .attendance__table-wrapper {
@@ -82,7 +90,9 @@
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
 
     .attendance {
-        max-width: 1300px;
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
     }
 
     .attendance__title {
@@ -91,8 +101,9 @@
 
     .attendance-table__header,
     .attendance-table__item {
-        padding: 24px;
-        font-size: 16px;
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: center;
     }
 
     .month-selector__current {
