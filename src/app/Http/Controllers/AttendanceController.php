@@ -103,6 +103,7 @@ class AttendanceController extends Controller
     public function list()
     {
         $attendances = auth()->user()->attendances()
+            ->with('breakTimes')
             ->orderBy('work_date', 'desc')
             ->get();
 
