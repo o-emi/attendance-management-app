@@ -12,25 +12,27 @@
 
     <h2 class="attendance__title">勤怠一覧</h2>
 
-    {{-- 月選択ナビゲーション --}}
     <div class="attendance__nav month-selector">
 
-        <a href="#" class="month-selector__link month-selector__link--prev">
+        <a href="{{ route('attendance.list',
+            ['month' => $month->copy()->subMonth()->format('Y-m')]) }}"
+            class="month-selector__link month-selector__link--prev">
             ← 前月
         </a>
 
         <div class="month-selector__current">
             <span class="month-selector__icon">📅</span>
-            2023/06
+                {{ $month->format('Y/m') }}
         </div>
 
-        <a href="#" class="month-selector__link month-selector__link--next">
+        <a href="{{ route('attendance.list',
+            ['month' => $month->copy()->addMonth()->format('Y-m')]) }}"
+            class="month-selector__link month-selector__link--next">
             翌月 →
         </a>
 
     </div>
 
-    {{-- 勤怠テーブル --}}
     <div class="attendance__table-wrapper">
 
         <table class="attendance-table">
@@ -97,7 +99,10 @@
             </td>
 
             <td class="attendance-table__item">
-            <a href="#" class="attendance-table__link">詳細</a>
+            <a href="{{ route('attendance.show', $attendance->id) }}"
+            class="attendance-table__link">
+            詳細
+            </a>
             </td>
 
             </tr>
