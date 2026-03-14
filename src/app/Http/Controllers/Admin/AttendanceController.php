@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Attendance;
+use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
 {
@@ -33,7 +34,13 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
-        $request->validate([
+        if ($attendance->status === '承認待ち') {
+            return back()->withErrors([
+                '承認待ちのため修正はできません。'
+            ]);
+        }
+
+        $validator = Validator::make($request->all(), [
             'clock_in' => 'required',
             'clock_out' => 'required',
             'remark' => 'required',
@@ -41,21 +48,28 @@ class AttendanceController extends Controller
             'remark.required' => '備考を記入してください',
         ]);
 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $workDate = Carbon::parse($attendance->work_date);
 
         $clockIn = $workDate->copy()->setTimeFromTimeString($request->clock_in);
         $clockOut = $workDate->copy()->setTimeFromTimeString($request->clock_out);
 
-        if ($clockIn->gt($clockOut)) {
+        if ($clockIn->gte($clockOut)) {
             return back()->withErrors([
                 'clock_time' => '出勤時間もしくは退勤時間が不適切な値です'
             ])->withInput();
         }
 
         if ($request->has('break_start')) {
+
             foreach ($request->break_start as $index => $start) {
 
-                if (!$start) continue;
+                if (!$start) {
+                    continue;
+                }
 
                 $breakStart = $workDate->copy()->setTimeFromTimeString($start);
 
@@ -65,15 +79,16 @@ class AttendanceController extends Controller
                     ])->withInput();
                 }
 
-                if (!empty($request->break_end[$index])) {
+                $end = $request->break_end[$index] ?? null;
 
-                    $breakEnd = $workDate->copy()->setTimeFromTimeString($request->break_end[$index]);
+                if ($end) {
+                    $breakEnd = $workDate->copy()->setTimeFromTimeString($end);
 
-                    if ($breakEnd->lt($breakStart)) {
+                    if ($breakStart->gte($breakEnd)) {
                         return back()->withErrors([
                             'break_time' => '休憩時間が不適切な値です'
                         ])->withInput();
-                    }
+                }
 
                     if ($breakEnd->gt($clockOut)) {
                         return back()->withErrors([
@@ -90,17 +105,27 @@ class AttendanceController extends Controller
             'remark' => $request->remark,
         ]);
 
-        foreach ($attendance->breakTimes as $index => $break) {
+        if ($request->has('break_start')) {
 
-            $start = $request->break_start[$index] ?? null;
-            $end = $request->break_end[$index] ?? null;
+            foreach ($request->break_start as $index => $start) {
 
-            $break->update([
-                'break_start' => $start ? $workDate->copy()->setTimeFromTimeString($start) : null,
-                'break_end' => $end ? $workDate->copy()->setTimeFromTimeString($end) : null,
-            ]);
+                $end = $request->break_end[$index] ?? null;
+
+                $break = $attendance->breakTimes->get($index);
+
+                if (!$break) {
+                    continue;
+                }
+
+                $break->update([
+                    'break_start' => $start ? $workDate->copy()->setTimeFromTimeString($start) : null,
+                    'break_end' => $end ? $workDate->copy()->setTimeFromTimeString($end) : null,
+                ]);
+            }
         }
 
-        return redirect()->route('admin.attendance.show', $attendance->id);
+        return redirect()
+            ->route('admin.attendance.show', $attendance->id)
+            ->with('message', '勤怠情報を更新しました');
     }
 }
