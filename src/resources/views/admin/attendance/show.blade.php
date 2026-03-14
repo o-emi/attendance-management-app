@@ -10,6 +10,13 @@
 <div class="attendance-detail">
     <h2 class="attendance-detail__title">勤怠詳細</h2>
 
+    @if(session('message'))
+    <p class="attendance-detail__success">
+        {{ session('message') }}
+    </p>
+    @endif
+
+
     <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST" class="attendance-detail__card">
         @csrf
         @method('PUT')
@@ -31,7 +38,7 @@
 
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">日付</label>
-            <div class="attendance-detail__content">
+            <div class="attendance-detail__content attendance-detail__input-row">
                 <span class="attendance-detail__text--bold">
                     {{ \Carbon\Carbon::parse($attendance->clock_in)->format('Y年') }}
                 </span>
@@ -44,57 +51,57 @@
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">出勤・退勤</label>
 
-            <div class="attendance-detail__content">
+            <div>
+                <div class="attendance-detail__content attendance-detail__input-row">
+                    <input type="time" name="clock_in"
+                        class="attendance-detail__input"
+                        value="{{ old('clock_in', $attendance->clock_in?->format('H:i')) }}">
 
-                <input type="time"
-                    name="clock_in"
-                    class="attendance-detail__input"
-                    value="{{ old('clock_in', $attendance->clock_in?->format('H:i')) }}"
-                    {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
+                    <span class="attendance-detail__separator">〜</span>
 
-                <span class="attendance-detail__separator">〜</span>
+                    <input type="time" name="clock_out"
+                        class="attendance-detail__input"
+                        value="{{ old('clock_out', $attendance->clock_out?->format('H:i')) }}">
+                </div>
 
-                <input type="time"
-                    name="clock_out"
-                    class="attendance-detail__input"
-                    value="{{ old('clock_out', $attendance->clock_out?->format('H:i')) }}"
-                    {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
+                @error('clock_time')
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
-        @error('clock_time')
-        <p class="attendance-detail__error-text">{{ $message }}</p>
-        @enderror
 
         @foreach($attendance->breakTimes as $index => $break)
         <div class="attendance-detail__group">
-
             <label class="attendance-detail__label">
                 休憩{{ $index > 0 ? $index + 1 : '' }}
             </label>
 
-            <div class="attendance-detail__content">
+            <div>
+                <div class="attendance-detail__content attendance-detail__input-row">
 
-                <input type="time"
-                    name="break_start[]"
-                    class="attendance-detail__input"
-                    value="{{ old('break_start.'.$index, \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}"
-                    {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
+                    <input type="time"
+                        name="break_start[]"
+                        class="attendance-detail__input"
+                        value="{{ old('break_start.'.$index, $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}"
+                        {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
 
-                <span class="attendance-detail__separator">〜</span>
+                    <span class="attendance-detail__separator">〜</span>
 
-                <input type="time"
-                    name="break_end[]"
-                    class="attendance-detail__input"
-                    value="{{ old('break_end.'.$index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
-                    {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
+                    <input type="time"
+                        name="break_end[]"
+                        class="attendance-detail__input"
+                        value="{{ old('break_end.'.$index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
+                        {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
+                </div>
+
+                @error('break_time')
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
+
             </div>
         </div>
         @endforeach
-
-        @error('break_time')
-            <p class="attendance-detail__error-text">{{ $message }}</p>
-        @enderror
 
         <div class="attendance-detail__group">
             <label class="attendance-detail__label">備考</label>
@@ -106,7 +113,12 @@
                     {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}
                 >{{ old('remark', $attendance->remark) }}</textarea>
             </div>
+
+            @error('remark')
+                <p class="attendance-detail__error-text">{{ $message }}</p>
+            @enderror
         </div>
+
 
         @if($attendance->status !== '承認待ち')
         <div class="attendance-detail__actions">
