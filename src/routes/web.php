@@ -53,6 +53,10 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'list'])
     ->name('attendance.list');
 
+    Route::get('/attendance/{id}',
+        [AttendanceController::class, 'show'])
+        ->name('attendance.show');
+
     });
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
