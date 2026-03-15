@@ -1,0 +1,114 @@
+.attendance-detail {
+    padding: 60px 20px;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+}
+
+.attendance-detail__inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.attendance-detail__title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    border-left: 6px solid #000;
+    padding-left: 15px;
+}
+
+.attendance-detail__table {
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.attendance-detail__group {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.attendance-detail__group:last-child {
+    border-bottom: none;
+}
+
+.attendance-detail__label {
+    width: 250px;
+    padding: 25px;
+    background-color: #fafafa;
+    color: #333;
+    font-weight: bold;
+}
+
+.attendance-detail__content {
+    flex: 1;
+    padding: 15px 40px;
+}
+
+.attendance-detail__input-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attendance-detail__input {
+    width: 100px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.attendance-detail__separator {
+    margin: 0 20px;
+    font-weight: bold;
+}
+
+.attendance-detail__textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+}
+
+.attendance-detail__text--bold {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.attendance-detail__actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.attendance-detail__submit-btn {
+    padding: 12px 60px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* エラー・成功メッセージ */
+.attendance-detail__error-text {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.attendance-detail__success {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+.attendance-detail__input::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
