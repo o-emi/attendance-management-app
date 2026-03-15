@@ -57,6 +57,10 @@ Route::middleware(['auth','verified'])->group(function () {
         [AttendanceController::class, 'show'])
         ->name('attendance.show');
 
+    Route::put('/attendance/{id}',
+        [AttendanceController::class, 'update'])
+        ->name('attendance.update');
+
     });
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
