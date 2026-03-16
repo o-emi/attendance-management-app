@@ -127,8 +127,22 @@ class AttendanceController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
             ->findOrFail($id);
 
         return view('attendance.show', compact('attendance'));
+    }
+
+    public function update($id)
+    {
+        $attendance = Attendance::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->with('breakTimes')
+            ->firstOrFail();
+
+        return redirect()
+            ->route('attendance.show', $attendance->id)
+            ->with('message', '修正申請を送信しました');
+
     }
 }
