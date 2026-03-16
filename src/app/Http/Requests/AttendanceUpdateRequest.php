@@ -27,6 +27,8 @@ class AttendanceUpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'clock_in.required' => '出勤時間を入力してください',
+            'clock_out.required' => '退勤時間を入力してください',
             'clock_out.after' => '出勤時間もしくは退勤時間が不適切な値です',
 
             'break_start.*.after' => '休憩時間が不適切な値です',
@@ -36,5 +38,42 @@ class AttendanceUpdateRequest extends FormRequest
 
             'remark.required' => '備考を記入してください',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+
+            $starts = $this->break_start;
+            $ends = $this->break_end;
+
+            if (!$starts || !$ends) {
+                return;
+            }
+
+            foreach ($starts as $i => $start) {
+
+                $end = $ends[$i] ?? null;
+
+                if (!$start && !$end) {
+                    continue;
+                }
+
+                if ($start && !$end) {
+                    $validator->errors()->add("break_end.$i",'休憩時間を入力してください');
+                    continue;
+                }
+
+                if (!$start && $end) {
+                    $validator->errors()->add("break_start.$i",'休憩時間を入力してください');
+                    continue;
+                }
+
+                if ($end <= $start) {
+                    $validator->errors()->add("break_end.$i",'休憩時間が不適切な値です');
+                }
+            }
+
+        });
     }
 }

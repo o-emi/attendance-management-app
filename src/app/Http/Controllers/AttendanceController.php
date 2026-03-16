@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Http\Requests\AttendanceUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -133,7 +134,7 @@ class AttendanceController extends Controller
         return view('attendance.show', compact('attendance'));
     }
 
-    public function update($id)
+    public function update(AttendanceUpdateRequest $request, $id)
     {
         $attendance = Attendance::where('id', $id)
             ->where('user_id', auth()->id())

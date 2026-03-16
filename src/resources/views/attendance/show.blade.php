@@ -79,6 +79,13 @@
                                 value="{{ old('break_end.'.$index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
                                 {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
                         </div>
+
+                        @error('break_end.'.$index)
+                            @if(old('break_start.'.$index) || old('break_end.'.$index))
+                                <p class="attendance-detail__error-text">{{ $message }}</p>
+                            @endif
+                        @enderror
+
                     </div>
                 </div>
                 @endforeach
@@ -98,7 +105,6 @@
 
                             <input type="time" name="break_end[]" class="attendance-detail__input"
                                 {{ $attendance->status === '承認待ち' ? 'disabled' : '' }}>
-
                         </div>
                     </div>
                 </div>
