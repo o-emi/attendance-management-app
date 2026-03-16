@@ -53,11 +53,11 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'list'])
     ->name('attendance.list');
 
-    Route::get('/attendance/{id}',
+    Route::get('/attendance/detail/{id}',
         [AttendanceController::class, 'show'])
         ->name('attendance.show');
 
-    Route::put('/attendance/{id}',
+    Route::put('/attendance/detail/{id}',
         [AttendanceController::class, 'update'])
         ->name('attendance.update');
 
