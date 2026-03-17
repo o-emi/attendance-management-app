@@ -52,50 +52,26 @@
 
             @foreach($attendances as $attendance)
 
-            @php
-                $breakTotal = 0;
-
-                foreach ($attendance->breakTimes as $break) {
-                    if ($break->break_start && $break->break_end) {
-                        $breakTotal += \Carbon\Carbon::parse($break->break_start)
-                            ->diffInMinutes(\Carbon\Carbon::parse($break->break_end));
-                    }
-                }
-
-                $workTotal = 0;
-
-                if ($attendance->clock_in && $attendance->clock_out) {
-                    $workTotal = \Carbon\Carbon::parse($attendance->clock_in)
-                        ->diffInMinutes(\Carbon\Carbon::parse($attendance->clock_out)) - $breakTotal;
-                }
-
-                $breakHour = floor($breakTotal / 60);
-                $breakMinute = $breakTotal % 60;
-
-                $workHour = floor($workTotal / 60);
-                $workMinute = $workTotal % 60;
-            @endphp
-
             <tr class="attendance-table__row">
 
             <td class="attendance-table__item">
-            {{ \Carbon\Carbon::parse($attendance->work_date)->format('m/d(D)') }}
+            {{ $attendance->work_date->format('m/d(D)') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ optional($attendance->clock_in)->format('H:i') }}
+            {{ $attendance->clock_in?->format('H:i') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ optional($attendance->clock_out)->format('H:i') }}
+            {{ $attendance->clock_out?->format('H:i') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ sprintf('%d:%02d', $breakHour, $breakMinute) }}
+            {{ $attendance->break_total_seconds ? gmdate('H:i', $attendance->break_total_seconds) : '' }}
             </td>
 
             <td class="attendance-table__item">
-            {{ sprintf('%d:%02d', $workHour, $workMinute) }}
+            {{ $attendance->work_total_seconds ? gmdate('H:i', $attendance->work_total_seconds) : '' }}
             </td>
 
             <td class="attendance-table__item">
