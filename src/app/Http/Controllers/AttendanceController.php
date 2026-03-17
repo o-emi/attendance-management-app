@@ -141,9 +141,39 @@ class AttendanceController extends Controller
             ->with('breakTimes')
             ->firstOrFail();
 
+        $attendance->update([
+            'clock_in' => $request->clock_in,
+            'clock_out' => $request->clock_out,
+            'remark' => $request->remark,
+            'status' => '承認待ち'
+        ]);
+
+        $breakTimes = $attendance->breakTimes->values();
+
+        foreach ($request->break_start as $index => $start) {
+
+            $end = $request->break_end[$index] ?? null;
+
+            if (!$start && !$end) {
+                continue;
+            }
+
+            if (isset($attendance->breakTimes[$index])) {
+                $attendance->breakTimes[$index]->update([
+                    'break_start' => $start,
+                    'break_end' => $end
+                ]);
+            } else {
+                BreakTime::create([
+                    'attendance_id' => $attendance->id,
+                    'break_start' => $start,
+                    'break_end' => $end
+                ]);
+            }
+        }
+
         return redirect()
             ->route('attendance.show', $attendance->id)
             ->with('message', '修正申請を送信しました');
-
     }
 }
