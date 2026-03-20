@@ -35,20 +35,6 @@ class Attendance extends Model
         return $this->hasMany(BreakTime::class);
     }
 
-    public function getBreakTotalSecondsAttribute()
-    {
-        $total = 0;
-
-        foreach ($this->breakTimes as $break) {
-            if ($break->break_start && $break->break_end) {
-                $total += $break->break_start
-                    ->diffInSeconds($break->break_end);
-            }
-        }
-
-        return $total;
-    }
-
     public function getWorkTotalSecondsAttribute()
     {
         if (!$this->clock_in || !$this->clock_out) {
@@ -59,5 +45,23 @@ class Attendance extends Model
             ->diffInSeconds($this->clock_out);
 
         return $work - $this->break_total_seconds;
+    }
+
+    public function getBreakTotalAttribute()
+    {
+        if (!$this->break_total_seconds) {
+            return null;
+        }
+
+        return gmdate('H:i', $this->break_total_seconds);
+    }
+
+    public function getWorkTotalAttribute()
+    {
+        if (!$this->work_total_seconds) {
+            return null;
+        }
+
+        return gmdate('H:i', $this->work_total_seconds);
     }
 }

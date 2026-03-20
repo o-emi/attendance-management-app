@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
@@ -113,15 +114,20 @@ class AttendanceController extends Controller
         $start = $month->copy()->startOfMonth();
         $end = $month->copy()->endOfMonth();
 
+        $period = CarbonPeriod::create($start, $end);
+
         $attendances = Attendance::with('breakTimes')
             ->where('user_id', $user->id)
             ->whereBetween('work_date', [$start, $end])
-            ->orderBy('work_date')
-            ->get();
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->work_date->format('Y-m-d');
+            });
 
         return view('attendance.list', compact(
             'attendances',
-            'month'
+            'month',
+            'period'
         ));
     }
 
