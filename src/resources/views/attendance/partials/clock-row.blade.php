@@ -23,9 +23,8 @@
                 value="{{ old('clock_out', $attendance->clock_out?->format('H:i')) }}">
         @endif
 
+        @error('clock_time')
+            <p class="attendance-detail__error-text">{{ $message }}</p>
+        @enderror
     </div>
-
-    @error('clock_time')
-        <p class="attendance-detail__error-text">{{ $message }}</p>
-    @enderror
 </div>

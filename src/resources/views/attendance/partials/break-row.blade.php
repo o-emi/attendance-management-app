@@ -1,5 +1,4 @@
 <div class="attendance-detail__group">
-<div class="attendance-detail__group">
     <label class="attendance-detail__label">
         休憩{{ $index > 0 ? $index + 1 : '' }}
     </label>
@@ -26,11 +25,10 @@
                 value="{{ old('break_end.'.$index, $break->break_end ? $break->break_end->format('H:i') : '') }}">
         @endif
 
+        @error('break_end.'.$index)
+            @if(old('break_start.'.$index) || old('break_end.'.$index))
+                <p class="attendance-detail__error-text">{{ $message }}</p>
+            @endif
+        @enderror
     </div>
-
-    @error('break_end.'.$index)
-        @if(old('break_start.'.$index) || old('break_end.'.$index))
-            <p class="attendance-detail__error-text">{{ $message }}</p>
-        @endif
-    @enderror
 </div>
