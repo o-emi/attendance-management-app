@@ -50,41 +50,45 @@
 
             <tbody class="attendance-table__body">
 
-            @foreach($attendances as $attendance)
+            @foreach($period as $date)
+                @php
+                    $attendance = $attendances[$date->format('Y-m-d')] ?? null;
+                @endphp
 
             <tr class="attendance-table__row">
 
             <td class="attendance-table__item">
-            {{ $attendance->work_date->format('m/d(D)') }}
+            {{ $date->locale('ja')->isoFormat('MM/DD(ddd)') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ $attendance->clock_in?->format('H:i') }}
+            {{ $attendance?->clock_in?->format('H:i') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ $attendance->clock_out?->format('H:i') }}
+            {{ $attendance?->clock_out?->format('H:i') }}
             </td>
 
             <td class="attendance-table__item">
-            {{ $attendance->break_total_seconds ? gmdate('H:i', $attendance->break_total_seconds) : '' }}
+            {{ $attendance?->break_total_seconds ? gmdate('H:i', $attendance->break_total_seconds) : '' }}
             </td>
 
             <td class="attendance-table__item">
-            {{ $attendance->work_total_seconds ? gmdate('H:i', $attendance->work_total_seconds) : '' }}
+            {{ $attendance?->work_total_seconds ? gmdate('H:i', $attendance->work_total_seconds) : '' }}
             </td>
 
             <td class="attendance-table__item">
-            <a href="{{ route('attendance.show', $attendance->id) }}"
-            class="attendance-table__link">
-            詳細
-            </a>
+                @if($attendance)
+                    <a href="{{ route('attendance.show', $attendance->id) }}"
+                        class="attendance-table__link">
+                        詳細
+                    </a>
+                @endif
             </td>
 
             </tr>
 
             @endforeach
-
             </tbody>
 
         </table>
