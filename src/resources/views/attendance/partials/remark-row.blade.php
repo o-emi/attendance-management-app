@@ -9,9 +9,8 @@
             <textarea name="remark" class="attendance-detail__textarea">{{ old('remark', $attendance->remark) }}</textarea>
         @endif
 
+        @error('remark')
+            <p class="attendance-detail__error-text">{{ $message }}</p>
+        @enderror
     </div>
-
-    @error('remark')
-        <p class="attendance-detail__error-text">{{ $message }}</p>
-    @enderror
 </div>
