@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #e0e0e0;
+    min-height: 60px;
 }
 
 .attendance-detail__group:last-child {
@@ -33,22 +34,24 @@
 }
 
 .attendance-detail__label {
-    width: 250px;
-    padding: 25px;
-    background-color: #fafafa;
-    color: #898787;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 20px;
+    color: #333;
     font-weight: bold;
 }
 
 .attendance-detail__content {
     flex: 1;
-    padding: 15px 40px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
 }
 
 .attendance-detail__input-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
 }
 
 .attendance-detail__input {
@@ -58,6 +61,12 @@
     border-radius: 4px;
     text-align: center;
     font-size: 16px;
+}
+
+.attendance-detail__input:disabled,
+.attendance-detail__input:read-only {
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .attendance-detail__separator {
@@ -72,43 +81,84 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     resize: none;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.attendance-detail__text {
+    display: inline-block;
+    padding: 8px 0;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: transparent;
+    width: auto;
+}
+
+.attendance-detail__textarea-span {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 0;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .attendance-detail__text--bold {
     font-size: 18px;
     font-weight: bold;
-    margin-right: 20px;
+    margin-right: 40px;
 }
 
 .attendance-detail__actions {
     margin-top: 30px;
     text-align: right;
+    width: 100%;
+}
+
+.attendance-detail__error-box {
+    margin-top: 20px;
+    text-align: right;
 }
 
 .attendance-detail__submit-btn {
-    padding: 12px 60px;
+    width: 200px;
     background-color: #000;
     color: #fff;
+    height: 45px;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
 }
 
-/* エラー・成功メッセージ */
 .attendance-detail__error-text {
     color: #ff0000;
     font-size: 14px;
-    margin-top: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
 }
-
-.attendance-detail__success {
-    color: #28a745;
-    margin-bottom: 15px;
-}
-
 .attendance-detail__input::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-detail__text,
+    .attendance-detail__textarea-span {
+        background-color: transparent;
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance-detail__text,
+    .attendance-detail__textarea-span {
+        background-color: transparent;
+        width: auto;
+    }
 }

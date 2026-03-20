@@ -12,18 +12,11 @@
     <div class="attendance-detail__inner">
         <h2 class="attendance-detail__title">勤怠詳細</h2>
 
-        @if(session('message'))
-        <p class="attendance-detail__success">
-            {{ session('message') }}
-        </p>
-        @endif
-
         <form action="{{ route('attendance.update', $attendance->id) }}" method="POST" class="attendance-detail__form">
             @csrf
             @method('PUT')
 
             <div class="attendance-detail__table">
-                {{-- 名前 --}}
                 <div class="attendance-detail__group">
                     <label class="attendance-detail__label">名前</label>
                     <div class="attendance-detail__content">
@@ -31,15 +24,14 @@
                     </div>
                 </div>
 
-                {{-- 日付 --}}
                 <div class="attendance-detail__group">
                     <label class="attendance-detail__label">日付</label>
                     <div class="attendance-detail__content">
                         <span class="attendance-detail__text--bold">
-                            {{ \Carbon\Carbon::parse($attendance->date)->format('Y年') }}
+                            {{ $attendance->work_date->format('Y年') }}
                         </span>
                         <span class="attendance-detail__text--bold">
-                            {{ \Carbon\Carbon::parse($attendance->date)->format('n月j日') }}
+                            {{ $attendance->work_date->format('n月j日') }}
                         </span>
                     </div>
                 </div>
@@ -56,14 +48,22 @@
 
             </div>
 
+            @if ($errors->any())
+                <div class="attendance-detail__error-box">
+                    @foreach ($errors->all() as $error)
+                        <p class="attendance-detail__error-text">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
             @if($attendance->status !== '承認待ち')
-            <div class="attendance-detail__actions">
-                <button type="submit" class="attendance-detail__submit-btn">修正</button>
-            </div>
+                <div class="attendance-detail__actions">
+                    <button type="submit" class="attendance-detail__submit-btn">修正</button>
+                </div>
             @else
-            <div class="attendance-detail__error">
-                <p class="attendance-detail__error-text">承認待ちのため修正はできません。</p>
-            </div>
+                <div class="attendance-detail__error">
+                    <p class="attendance-detail__error-text">承認待ちのため修正はできません。</p>
+                </div>
             @endif
         </form>
     </div>
