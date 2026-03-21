@@ -64,4 +64,9 @@ class Attendance extends Model
 
         return gmdate('H:i', $this->work_total_seconds);
     }
+
+    public function correctionRequest()
+    {
+        return $this->hasOne(CorrectionRequest::class);
+    }
 }
