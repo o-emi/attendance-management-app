@@ -65,16 +65,20 @@ Route::middleware(['auth','verified'])->group(function () {
         [AttendanceController::class, 'request'])
         ->name('attendance.request');
 
+    Route::get('/stamp_correction_request/list',
+        [AttendanceController::class, 'requestList'])
+        ->name('stamp_correction_request.list');
+
     });
 
     Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
-    ->name('admin.auth.login');
+        ->name('admin.auth.login');
 
     Route::post('/admin/login', [AdminAuthController::class, 'login'])
-    ->name('admin.auth.login.post');
+        ->name('admin.auth.login.post');
 
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
-    ->name('admin.auth.logout');
+        ->name('admin.auth.logout');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
     Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])
