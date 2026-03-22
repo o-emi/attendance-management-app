@@ -12,9 +12,8 @@
     <div class="attendance-detail__inner">
         <h2 class="attendance-detail__title">勤怠詳細</h2>
 
-        <form action="{{ route('attendance.update', $attendance->id) }}" method="POST" class="attendance-detail__form">
+        <form action="{{ route('attendance.request', $attendance->id) }}" method="POST" class="attendance-detail__form">
             @csrf
-            @method('PUT')
 
             <div class="attendance-detail__table">
                 <div class="attendance-detail__group">
@@ -44,7 +43,7 @@
 
                 @include('attendance.partials.break-row-add')
 
-                @include('attendance.partials.remark-row')
+                @include('attendance.partials.note-row')
 
             </div>
 
