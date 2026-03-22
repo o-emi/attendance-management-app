@@ -7,7 +7,9 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\CorrectionRequest;
 use App\Http\Requests\AttendanceUpdateRequest;
+
 
 class AttendanceController extends Controller
 {
@@ -139,47 +141,64 @@ class AttendanceController extends Controller
 
         return view('attendance.show', compact('attendance'));
     }
+//  ※一般ユーザーでは使用しない（修正申請はrequestで対応）将来的に削除予定
 
-    public function update(AttendanceUpdateRequest $request, $id)
+    // public function update(AttendanceUpdateRequest $request, $id)
+    // {
+    //     $attendance = Attendance::where('id', $id)
+    //         ->where('user_id', auth()->id())
+    //         ->with('breakTimes')
+    //         ->firstOrFail();
+
+    //     $attendance->update([
+    //         'clock_in' => $request->clock_in,
+    //         'clock_out' => $request->clock_out,
+    //         'remark' => $request->remark,
+    //         'status' => '承認待ち'
+    //     ]);
+
+    //     $breakTimes = $attendance->breakTimes->values();
+
+    //     foreach ($request->break_start as $index => $start) {
+
+    //         $end = $request->break_end[$index] ?? null;
+
+    //         if (!$start && !$end) {
+    //             continue;
+    //         }
+
+    //         if (isset($attendance->breakTimes[$index])) {
+    //             $attendance->breakTimes[$index]->update([
+    //                 'break_start' => $start,
+    //                 'break_end' => $end
+    //             ]);
+    //         } else {
+    //             BreakTime::create([
+    //                 'attendance_id' => $attendance->id,
+    //                 'break_start' => $start,
+    //                 'break_end' => $end
+    //             ]);
+    //         }
+    //     }
+
+    //     return redirect()
+    //         ->route('attendance.show', $attendance->id)
+    //         ->with('message', '修正申請を送信しました');
+    // }
+
+    public function request(Request $request, $id)
     {
-        $attendance = Attendance::where('id', $id)
-            ->where('user_id', auth()->id())
-            ->with('breakTimes')
-            ->firstOrFail();
+        $attendance = Attendance::findOrFail($id);
 
-        $attendance->update([
-            'clock_in' => $request->clock_in,
-            'clock_out' => $request->clock_out,
-            'remark' => $request->remark,
-            'status' => '承認待ち'
+        CorrectionRequest::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $attendance->id,
+            'start_time' => $request->clock_in,
+            'end_time' => $request->clock_out,
+            'note' => $request->note,
+            'status' => 'pending',
         ]);
 
-        $breakTimes = $attendance->breakTimes->values();
-
-        foreach ($request->break_start as $index => $start) {
-
-            $end = $request->break_end[$index] ?? null;
-
-            if (!$start && !$end) {
-                continue;
-            }
-
-            if (isset($attendance->breakTimes[$index])) {
-                $attendance->breakTimes[$index]->update([
-                    'break_start' => $start,
-                    'break_end' => $end
-                ]);
-            } else {
-                BreakTime::create([
-                    'attendance_id' => $attendance->id,
-                    'break_start' => $start,
-                    'break_end' => $end
-                ]);
-            }
-        }
-
-        return redirect()
-            ->route('attendance.show', $attendance->id)
-            ->with('message', '修正申請を送信しました');
+        return redirect()->back()->with('message', '修正申請を送信しました');
     }
 }
