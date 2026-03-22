@@ -61,15 +61,19 @@ Route::middleware(['auth','verified'])->group(function () {
         [AttendanceController::class, 'update'])
         ->name('attendance.update');
 
+    Route::post('/attendance/request/{id}',
+        [AttendanceController::class, 'request'])
+        ->name('attendance.request');
+
     });
 
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
+    Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
     ->name('admin.auth.login');
 
-Route::post('/admin/login', [AdminAuthController::class, 'login'])
+    Route::post('/admin/login', [AdminAuthController::class, 'login'])
     ->name('admin.auth.login.post');
 
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
     ->name('admin.auth.logout');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
