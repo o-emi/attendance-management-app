@@ -37,9 +37,9 @@
                 @foreach($pendingRequests as $request)
                 <tr class="requests-table__row">
                     <td class="requests-table__item">承認待ち</td>
-                    <td class="requests-table__item">{{ $request->user->name ?? 'emi2' }}</td>
+                    <td class="requests-table__item">{{ $request->user->name }}</td>
                     <td class="requests-table__item">{{ \Carbon\Carbon::parse($request->attendance->work_date)->format('Y/m/d') }}</td>
-                    <td class="requests-table__item">{{ $request->reason ?? '遅延のため' }}</td>
+                    <td class="requests-table__item">{{ $request->note }}</td>
                     <td class="requests-table__item">{{ \Carbon\Carbon::parse($request->created_at)->format('Y/m/d') }}</td>
                     <td class="requests-table__item">
                         <a href="#" class="requests-table__link">詳細</a>

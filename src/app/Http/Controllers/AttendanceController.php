@@ -204,12 +204,14 @@ class AttendanceController extends Controller
 
     public function requestList()
     {
-        $pendingRequests = CorrectionRequest::where('user_id', auth()->id())
+        $pendingRequests = CorrectionRequest::with(['user', 'attendance'])
+            ->where('user_id', auth()->id())
             ->where('status', 'pending')
             ->latest()
             ->get();
 
-        $approvedRequests = CorrectionRequest::where('user_id', auth()->id())
+        $approvedRequests = CorrectionRequest::with(['user', 'attendance'])
+            ->where('user_id', auth()->id())
             ->where('status', 'approved')
             ->latest()
             ->get();
