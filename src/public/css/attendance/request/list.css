@@ -1,0 +1,144 @@
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+}
+
+.requests {
+    color: #817f7f;
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.requests__title {
+    font-size: 26px;
+    font-weight: bold;
+    border-left: 4px solid #000;
+    padding-left: 15px;
+    margin-bottom: 35px;
+}
+
+.requests__tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid #1a1919;
+    margin-bottom: 30px;
+}
+
+.requests__tab {
+    margin-right: 40px;
+}
+
+.requests__tab-link {
+    display: block;
+    padding-bottom: 10px;
+    text-decoration: none;
+    color: #a0a0a0;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: -1px;
+}
+
+.requests__tab-link--active {
+    color: #000;
+    border-bottom: 2px solid #000;
+}
+
+.requests__content {
+    background-color: #fff;
+    padding: 0px 40px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.requests-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.requests-table__header {
+    text-align: left;
+    padding: 20px 10px;
+    color: #817f7f;
+    font-weight: normal;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.requests-table__item {
+    padding: 20px 10px;
+    font-size: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.requests-table__link {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.requests-table__link:hover {
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+
+    .requests {
+        max-width: 1000px;
+        padding: 0 30px;
+    }
+
+    .requests__title {
+        font-size: 24px;
+    }
+
+    .requests__tab-link {
+        font-size: 15px;
+    }
+
+    .requests-table__header,
+    .requests-table__item {
+        padding: 16px 8px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+    .requests {
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .requests__title {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+
+    .requests__tabs {
+        margin-bottom: 20px;
+    }
+
+    .requests__tab {
+        margin-right: 20px;
+    }
+
+    .requests__tab-link {
+        font-size: 14px;
+    }
+
+    .requests__content {
+        padding: 0 20px;
+    }
+
+    .requests-table__header,
+    .requests-table__item {
+        padding: 14px 6px;
+        font-size: 13px;
+    }
+
+    .requests-table {
+        font-size: 13px;
+    }
+}
