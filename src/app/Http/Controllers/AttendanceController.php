@@ -135,11 +135,15 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        $attendance = Attendance::with('breakTimes')
+        $attendance = Attendance::with('breakTimes', 'correctionRequests')
             ->where('user_id', auth()->id())
             ->findOrFail($id);
 
-        return view('attendance.show', compact('attendance'));
+        $latestRequest = $attendance->correctionRequests()
+            ->latest()
+            ->first();
+
+        return view('attendance.show', compact('attendance', 'latestRequest'));
     }
 //  ※一般ユーザーでは使用しない（修正申請はrequestで対応）将来的に削除予定
 
@@ -197,6 +201,10 @@ class AttendanceController extends Controller
             'end_time' => $request->clock_out,
             'note' => $request->note,
             'status' => 'pending',
+        ]);
+
+        $attendance->update([
+            'status' => '承認待ち'
         ]);
 
         return redirect()->back()->with('message', '修正申請を送信しました');
