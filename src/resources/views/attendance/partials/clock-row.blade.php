@@ -3,13 +3,21 @@
 
     <div class="attendance-detail__content attendance-detail__input-row">
 
+        @php
+            $latestRequest = $attendance->correctionRequests()->latest()->first();
+        @endphp
+
         @if($attendance->status === '承認待ち')
             <span class="attendance-detail__text">
-                {{ $attendance->clock_in?->format('H:i') }}
+                {{ $latestRequest->start_time
+                    ? \Carbon\Carbon::parse($latestRequest->start_time)->format('H:i')
+                    : $attendance->clock_in?->format('H:i') }}
             </span>
             <span class="attendance-detail__separator">〜</span>
             <span class="attendance-detail__text">
-                {{ $attendance->clock_out?->format('H:i') }}
+                {{ $latestRequest->end_time
+                    ? \Carbon\Carbon::parse($latestRequest->end_time)->format('H:i')
+                    : $attendance->clock_out?->format('H:i') }}
             </span>
         @else
             <input type="time"
