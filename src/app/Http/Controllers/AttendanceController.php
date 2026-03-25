@@ -194,12 +194,28 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
 
+        $breakTimes = [];
+
+        foreach ($request->break_start as $index => $start) {
+            $end = $request->break_end[$index] ?? null;
+
+            if (!$start && !$end) {
+                continue;
+            }
+
+            $breakTimes[] = [
+                'start' => $start,
+                'end' => $end,
+            ];
+        }
+
         CorrectionRequest::create([
             'user_id' => auth()->id(),
             'attendance_id' => $attendance->id,
             'start_time' => $request->clock_in,
             'end_time' => $request->clock_out,
             'note' => $request->note,
+            'break_times' => json_encode($breakTimes),
             'status' => 'pending',
         ]);
 
