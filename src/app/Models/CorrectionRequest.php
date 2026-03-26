@@ -16,6 +16,11 @@ class CorrectionRequest extends Model
     'end_time',
     'note',
     'status',
+    'break_times',
+    ];
+
+    protected $casts = [
+        'break_times' => 'array',
     ];
 
     public function user()

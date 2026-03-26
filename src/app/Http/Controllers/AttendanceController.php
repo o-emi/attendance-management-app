@@ -215,7 +215,7 @@ class AttendanceController extends Controller
             'start_time' => $request->clock_in,
             'end_time' => $request->clock_out,
             'note' => $request->note,
-            'break_times' => json_encode($breakTimes),
+            'break_times' => $breakTimes,
             'status' => 'pending',
         ]);
 
