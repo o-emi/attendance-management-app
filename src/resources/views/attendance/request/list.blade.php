@@ -13,10 +13,16 @@
     <nav class="requests__nav">
         <ul class="requests__tabs">
             <li class="requests__tab">
-                <a href="#" class="requests__tab-link requests__tab-link--active">承認待ち</a>
+                <a href="{{ route('stamp_correction_request.list', ['status' => 'pending']) }}"
+                    class="requests__tab-link {{ request('status', 'pending') === 'pending' ? 'requests__tab-link--active' : '' }}">
+                    承認待ち
+                </a>
             </li>
             <li class="requests__tab">
-                <a href="#" class="requests__tab-link">承認済み</a>
+                <a href="{{ route('stamp_correction_request.list', ['status' => 'approved']) }}"
+                    class="requests__tab-link {{ request('status') === 'approved' ? 'requests__tab-link--active' : '' }}">
+                    承認済み
+                </a>
             </li>
         </ul>
     </nav>
@@ -33,20 +39,31 @@
                     <th class="requests-table__header">詳細</th>
                 </tr>
             </thead>
+
             <tbody class="requests-table__body">
-                @foreach($pendingRequests as $request)
+                @foreach($requests as $request)
                 <tr class="requests-table__row">
-                    <td class="requests-table__item">承認待ち</td>
-                    <td class="requests-table__item">{{ $request->user->name }}</td>
-                    <td class="requests-table__item">{{ \Carbon\Carbon::parse($request->attendance->work_date)->format('Y/m/d') }}</td>
-                    <td class="requests-table__item">{{ $request->note }}</td>
-                    <td class="requests-table__item">{{ \Carbon\Carbon::parse($request->created_at)->format('Y/m/d') }}</td>
                     <td class="requests-table__item">
-                        <a href="#" class="requests-table__link">詳細</a>
+                        {{ $request->status === 'pending' ? '承認待ち' : '承認済み' }}
+                    </td>
+                    <td class="requests-table__item">{{ $request->user->name }}</td>
+                    <td class="requests-table__item">
+                        {{ \Carbon\Carbon::parse($request->attendance->work_date)->format('Y/m/d') }}
+                    </td>
+                    <td class="requests-table__item">{{ $request->note }}</td>
+                    <td class="requests-table__item">
+                        {{ \Carbon\Carbon::parse($request->created_at)->format('Y/m/d') }}
+                    </td>
+                    <td class="requests-table__item">
+                        <a href="{{ route('attendance.show', $request->attendance_id) }}"
+                            class="requests-table__link">
+                            詳細
+                        </a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
+
         </table>
     </div>
 </div>

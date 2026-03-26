@@ -226,23 +226,16 @@ class AttendanceController extends Controller
         return redirect()->back()->with('message', '修正申請を送信しました');
     }
 
-    public function requestList()
+    public function requestList(Request $request)
     {
-        $pendingRequests = CorrectionRequest::with(['user', 'attendance'])
+        $status = $request->query('status', 'pending');
+
+        $requests = CorrectionRequest::with(['user', 'attendance'])
             ->where('user_id', auth()->id())
-            ->where('status', 'pending')
+            ->where('status', $status)
             ->latest()
             ->get();
 
-        $approvedRequests = CorrectionRequest::with(['user', 'attendance'])
-            ->where('user_id', auth()->id())
-            ->where('status', 'approved')
-            ->latest()
-            ->get();
-
-        return view('attendance.request.list', compact(
-            'pendingRequests',
-            'approvedRequests'
-        ));
+        return view('attendance.request.list', compact('requests'));
     }
 }
