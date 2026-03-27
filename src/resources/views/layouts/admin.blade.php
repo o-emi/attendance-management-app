@@ -29,7 +29,7 @@
                             <a href="/admin/staff/list" class="nav-link">スタッフ一覧</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/requests" class="nav-link">申請一覧</a>
+                            <a href="{{ route('admin.request.list') }}" class="nav-link">申請一覧</a>
                         </li>
 
                         @auth
