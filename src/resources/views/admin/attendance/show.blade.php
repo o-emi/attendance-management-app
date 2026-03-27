@@ -41,7 +41,7 @@
 
             @include('attendance.partials.break-row-add')
 
-            @include('attendance.partials.remark-row')
+            @include('attendance.partials.note-row')
 
             @if($attendance->status !== '承認待ち')
                 <div class="attendance-detail__actions">
