@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\CorrectionRequest;
 use Illuminate\Support\Facades\DB;
-
 class CorrectionRequestController extends Controller
 {
     public function index()
