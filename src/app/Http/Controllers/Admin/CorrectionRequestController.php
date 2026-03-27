@@ -5,15 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CorrectionRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
 class CorrectionRequestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->query('status', 'pending');
+
         $requests = CorrectionRequest::with('user')
+            ->when($status === 'approved', function ($query) {
+                $query->where('status', 'approved');
+            }, function ($query) {
+                $query->where('status', 'pending');
+            })
             ->latest()
             ->get();
 
-        return view('admin.correction_requests.index', compact('requests'));
+        return view('admin.correction_requests.index', compact('requests', 'status'));
     }
 
     public function show($id)
