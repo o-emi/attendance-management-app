@@ -55,7 +55,7 @@
                         </td>
 
                         <td class="request-table__item">
-                            {{ $request->reason }}
+                            {{ $request->note }}
                         </td>
 
                         <td class="request-table__item">
