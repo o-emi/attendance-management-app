@@ -145,50 +145,6 @@ class AttendanceController extends Controller
 
         return view('attendance.show', compact('attendance', 'latestRequest'));
     }
-//  ※一般ユーザーでは使用しない（修正申請はrequestで対応）将来的に削除予定
-
-    // public function update(AttendanceUpdateRequest $request, $id)
-    // {
-    //     $attendance = Attendance::where('id', $id)
-    //         ->where('user_id', auth()->id())
-    //         ->with('breakTimes')
-    //         ->firstOrFail();
-
-    //     $attendance->update([
-    //         'clock_in' => $request->clock_in,
-    //         'clock_out' => $request->clock_out,
-    //         'remark' => $request->remark,
-    //         'status' => '承認待ち'
-    //     ]);
-
-    //     $breakTimes = $attendance->breakTimes->values();
-
-    //     foreach ($request->break_start as $index => $start) {
-
-    //         $end = $request->break_end[$index] ?? null;
-
-    //         if (!$start && !$end) {
-    //             continue;
-    //         }
-
-    //         if (isset($attendance->breakTimes[$index])) {
-    //             $attendance->breakTimes[$index]->update([
-    //                 'break_start' => $start,
-    //                 'break_end' => $end
-    //             ]);
-    //         } else {
-    //             BreakTime::create([
-    //                 'attendance_id' => $attendance->id,
-    //                 'break_start' => $start,
-    //                 'break_end' => $end
-    //             ]);
-    //         }
-    //     }
-
-    //     return redirect()
-    //         ->route('attendance.show', $attendance->id)
-    //         ->with('message', '修正申請を送信しました');
-    // }
 
     public function request(Request $request, $id)
     {
@@ -214,7 +170,7 @@ class AttendanceController extends Controller
             'attendance_id' => $attendance->id,
             'start_time' => $request->clock_in,
             'end_time' => $request->clock_out,
-            'note' => $request->note,
+            'note' => $request->remark,
             'break_times' => $breakTimes,
             'status' => 'pending',
         ]);
