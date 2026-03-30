@@ -65,7 +65,7 @@
             <tr class="attendance-detail__row">
                 <th class="attendance-detail__label">備考</th>
                 <td class="attendance-detail__data">
-                    {{ $correctionRequest->reason }}
+                    {{ $correctionRequest->note}}
                 </td>
             </tr>
         </table>
