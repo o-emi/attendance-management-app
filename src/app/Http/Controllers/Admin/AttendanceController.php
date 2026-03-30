@@ -25,9 +25,13 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        $attendance = Attendance::with('user', 'breakTimes')->findOrFail($id);
+        $attendance = Attendance::with('user', 'breakTimes', 'correctionRequests')->findOrFail($id);
 
-        return view('admin.attendance.show', compact('attendance'));
+        $latestRequest = $attendance->correctionRequests()
+            ->latest()
+            ->first();
+
+        return view('admin.attendance.show', compact('attendance', 'latestRequest'));
     }
 
     public function update(Request $request, $id)
