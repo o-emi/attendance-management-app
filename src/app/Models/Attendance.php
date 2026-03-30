@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\BreakTime;
+use App\Models\CorrectionRequest;
 use Carbon\Carbon;
 
 class Attendance extends Model
@@ -63,5 +64,10 @@ class Attendance extends Model
         }
 
         return gmdate('H:i', $this->work_total_seconds);
+    }
+
+    public function correctionRequests()
+    {
+        return $this->hasMany(CorrectionRequest::class);
     }
 }

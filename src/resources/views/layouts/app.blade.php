@@ -24,7 +24,7 @@
                     <ul class="nav-list">
                         <li class="nav-item"><a href="/attendance" class="nav-link">勤怠</a></li>
                         <li class="nav-item"><a href="/attendance/list" class="nav-link">勤怠一覧</a></li>
-                        <li class="nav-item"><a href="/application" class="nav-link">申請</a></li>
+                        <li class="nav-item"><a href="{{ route('stamp_correction_request.list') }}" class="nav-link">申請</a></li>
                         @auth
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">

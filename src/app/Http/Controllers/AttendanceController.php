@@ -7,7 +7,9 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\CorrectionRequest;
 use App\Http\Requests\AttendanceUpdateRequest;
+
 
 class AttendanceController extends Controller
 {
@@ -133,53 +135,63 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        $attendance = Attendance::with('breakTimes')
+        $attendance = Attendance::with('breakTimes', 'correctionRequests')
             ->where('user_id', auth()->id())
             ->findOrFail($id);
 
-        return view('attendance.show', compact('attendance'));
+        $latestRequest = $attendance->correctionRequests()
+            ->latest()
+            ->first();
+
+        return view('attendance.show', compact('attendance', 'latestRequest'));
     }
 
-    public function update(AttendanceUpdateRequest $request, $id)
+    public function request(Request $request, $id)
     {
-        $attendance = Attendance::where('id', $id)
-            ->where('user_id', auth()->id())
-            ->with('breakTimes')
-            ->firstOrFail();
+        $attendance = Attendance::findOrFail($id);
 
-        $attendance->update([
-            'clock_in' => $request->clock_in,
-            'clock_out' => $request->clock_out,
-            'remark' => $request->remark,
-            'status' => '承認待ち'
-        ]);
-
-        $breakTimes = $attendance->breakTimes->values();
+        $breakTimes = [];
 
         foreach ($request->break_start as $index => $start) {
-
             $end = $request->break_end[$index] ?? null;
 
             if (!$start && !$end) {
                 continue;
             }
 
-            if (isset($attendance->breakTimes[$index])) {
-                $attendance->breakTimes[$index]->update([
-                    'break_start' => $start,
-                    'break_end' => $end
-                ]);
-            } else {
-                BreakTime::create([
-                    'attendance_id' => $attendance->id,
-                    'break_start' => $start,
-                    'break_end' => $end
-                ]);
-            }
+            $breakTimes[] = [
+                'start' => $start,
+                'end' => $end,
+            ];
         }
 
-        return redirect()
-            ->route('attendance.show', $attendance->id)
-            ->with('message', '修正申請を送信しました');
+        CorrectionRequest::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $attendance->id,
+            'start_time' => $request->clock_in,
+            'end_time' => $request->clock_out,
+            'note' => $request->remark,
+            'break_times' => $breakTimes,
+            'status' => 'pending',
+        ]);
+
+        $attendance->update([
+            'status' => '承認待ち'
+        ]);
+
+        return redirect()->back()->with('message', '修正申請を送信しました');
+    }
+
+    public function requestList(Request $request)
+    {
+        $status = $request->query('status', 'pending');
+
+        $requests = CorrectionRequest::with(['user', 'attendance'])
+            ->where('user_id', auth()->id())
+            ->where('status', $status)
+            ->latest()
+            ->get();
+
+        return view('attendance.request.list', compact('requests'));
     }
 }

@@ -36,12 +36,20 @@
             @include('attendance.partials.clock-row')
 
             @foreach($attendance->breakTimes as $index => $break)
-                @include('attendance.partials.break-row')
+                @include('attendance.partials.break-row', [
+                    'index' => $index,
+                    'break' => $break,
+                    'isPending' => $attendance->status === '承認待ち'
+                ])
             @endforeach
 
-            @include('attendance.partials.break-row-add')
+            @if($attendance->status !== '承認待ち')
+                @include('attendance.partials.break-row-add', [
+                    'index' => $attendance->breakTimes->count()
+                ])
+            @endif
 
-            @include('attendance.partials.remark-row')
+            @include('attendance.partials.note-row')
 
             @if($attendance->status !== '承認待ち')
                 <div class="attendance-detail__actions">

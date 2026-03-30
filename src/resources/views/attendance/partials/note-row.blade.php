@@ -4,9 +4,13 @@
     <div class="attendance-detail__content">
 
         @if($attendance->status === '承認待ち')
-            <span class="attendance-detail__text">{{ $attendance->remark }}</span>
+            <span class="attendance-detail__text">
+                {{ $latestRequest->note ?? $attendance->remark }}
+            </span>
         @else
-            <textarea name="remark" class="attendance-detail__textarea">{{ old('remark', $attendance->remark) }}</textarea>
+            <textarea name="remark" class="attendance-detail__textarea">
+                {{ old('remark', $attendance->remark) }}
+            </textarea>
         @endif
 
         @error('remark')

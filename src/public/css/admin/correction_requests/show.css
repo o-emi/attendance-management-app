@@ -1,0 +1,79 @@
+/* block */
+.admin-approval {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-approval__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border-left: 8px solid #000;
+    padding-left: 15px;
+}
+
+/* block: attendance-detail */
+.attendance-detail {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.attendance-detail__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-detail__row {
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-detail__row:last-child {
+    border-bottom: none;
+}
+
+.attendance-detail__label {
+    width: 30%;
+    padding: 25px 40px;
+    text-align: left;
+    color: #666;
+    font-weight: normal;
+}
+
+.attendance-detail__data {
+    width: 70%;
+    padding: 25px 40px;
+    font-weight: bold;
+}
+
+.attendance-detail__separator {
+    margin: 0 20px;
+}
+
+/* modifier / actions */
+.admin-approval__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.admin-approval__button {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 60px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+.admin-approval__button--approve {
+    background-color: #000;
+    color: #fff;
+}
+
+.admin-approval__button:hover {
+    opacity: 0.8;
+}

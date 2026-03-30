@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Admin\CorrectionRequestController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
@@ -61,16 +62,24 @@ Route::middleware(['auth','verified'])->group(function () {
         [AttendanceController::class, 'update'])
         ->name('attendance.update');
 
+    Route::post('/attendance/request/{id}',
+        [AttendanceController::class, 'request'])
+        ->name('attendance.request');
+
+    Route::get('/stamp_correction_request/list',
+        [AttendanceController::class, 'requestList'])
+        ->name('stamp_correction_request.list');
+
     });
 
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
-    ->name('admin.auth.login');
+    Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
+        ->name('admin.auth.login');
 
-Route::post('/admin/login', [AdminAuthController::class, 'login'])
-    ->name('admin.auth.login.post');
+    Route::post('/admin/login', [AdminAuthController::class, 'login'])
+        ->name('admin.auth.login.post');
 
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
-    ->name('admin.auth.logout');
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
+        ->name('admin.auth.logout');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
     Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])
@@ -81,4 +90,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
 
     Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])
         ->name('admin.attendance.update');
+
+    Route::get('/stamp_correction_request/list',
+        [CorrectionRequestController::class, 'index'])
+        ->name('admin.request.list');
+
+    Route::get('/stamp_correction_request/approve/{id}',
+    [CorrectionRequestController::class, 'show'])
+        ->name('admin.request.show');
+
+    Route::post('/stamp_correction_request/approve/{id}',
+        [CorrectionRequestController::class, 'approve'])
+        ->name('admin.request.approve');
+
+
 });
