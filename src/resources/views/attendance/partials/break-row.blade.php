@@ -1,47 +1,43 @@
-@php
-    $latestRequest = $attendance->correctionRequests()->latest()->first();
-@endphp
+<div class="attendance-detail__group">
+    <label class="attendance-detail__label">
+        {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
+    </label>
 
-@if($attendance->status === '承認待ち')
+    <div class="attendance-detail__content attendance-detail__input-row">
+        @if($isPending)
+            <span class="attendance-detail__text">
+                {{
+                    is_array($break)
+                        ? (!empty($break['start']) ? \Carbon\Carbon::parse($break['start'])->format('H:i') : (!empty($break['break_start']) ? \Carbon\Carbon::parse($break['break_start'])->format('H:i') : ''))
+                        : (!empty($break->start) ? \Carbon\Carbon::parse($break->start)->format('H:i') : (!empty($break->break_start) ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : ''))
+                    }}
+            </span>
 
-    @foreach ($latestRequest->break_times ?? [] as $index => $break)
-        <div class="attendance-detail__group">
-            <label class="attendance-detail__label">
-                休憩{{ $index + 1 }}
-            </label>
+            <span class="attendance-detail__separator">〜</span>
 
-            <div class="attendance-detail__content attendance-detail__input-row">
-                <span class="attendance-detail__text">
-                    {{ $break['start'] ?? '' }}
-                </span>
-                <span class="attendance-detail__separator">〜</span>
-                <span class="attendance-detail__text">
-                    {{ $break['end'] ?? '' }}
-                </span>
-            </div>
-        </div>
-    @endforeach
+            <span class="attendance-detail__text">
+                {{
+                    is_array($break)
+                        ? (!empty($break['end']) ? \Carbon\Carbon::parse($break['end'])->format('H:i') : (!empty($break['break_end']) ? \Carbon\Carbon::parse($break['break_end'])->format('H:i') : ''))
+                        : (!empty($break->end) ? \Carbon\Carbon::parse($break->end)->format('H:i') : (!empty($break->break_end) ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : ''))
+                }}
+            </span>
+        @else
+            <input
+                type="time"
+                name="break_start[]"
+                class="attendance-detail__input"
+                value="{{ old('break_start.' . $index, $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}"
+            >
 
-@else
+            <span class="attendance-detail__separator">〜</span>
 
-    @foreach ($attendance->breakTimes as $index => $break)
-        <div class="attendance-detail__group">
-            <label class="attendance-detail__label">
-                休憩{{ $index + 1 }}
-            </label>
-
-            <div class="attendance-detail__content attendance-detail__input-row">
-                <input type="time"
-                    name="break_start[]"
-                    class="attendance-detail__input"
-                    value="{{ old('break_start.'.$index, $break->break_start ? $break->break_start->format('H:i') : '') }}">
-                <span class="attendance-detail__separator">〜</span>
-                <input type="time"
-                    name="break_end[]"
-                    class="attendance-detail__input"
-                    value="{{ old('break_end.'.$index, $break->break_end ? $break->break_end->format('H:i') : '') }}">
-            </div>
-        </div>
-    @endforeach
-
-@endif
+            <input
+                type="time"
+                name="break_end[]"
+                class="attendance-detail__input"
+                value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
+            >
+        @endif
+    </div>
+</div>
