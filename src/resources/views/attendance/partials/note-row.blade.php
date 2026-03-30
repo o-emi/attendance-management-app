@@ -5,15 +5,15 @@
 
         @if($attendance->status === '承認待ち')
             <span class="attendance-detail__text">
-                {{ $latestRequest->note ?? '（申請なし）' }}
+                {{ $latestRequest->note ?? $attendance->remark }}
             </span>
         @else
-            <textarea name="note" class="attendance-detail__textarea">
-                {{ old('note', $attendance->remark) }}
+            <textarea name="remark" class="attendance-detail__textarea">
+                {{ old('remark', $attendance->remark) }}
             </textarea>
         @endif
 
-        @error('note')
+        @error('remark')
             <p class="attendance-detail__error-text">{{ $message }}</p>
         @enderror
     </div>
