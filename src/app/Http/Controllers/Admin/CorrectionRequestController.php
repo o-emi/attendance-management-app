@@ -53,8 +53,8 @@ class CorrectionRequestController extends Controller
 
             foreach ($correctionRequest->break_times as $break) {
                 $attendance->breakTimes()->create([
-                    'start' => $break['start'],
-                    'end'   => $break['end'],
+                    'break_start' => $break['start'],
+                    'break_end'    => $break['end'],
                 ]);
             }
         });
