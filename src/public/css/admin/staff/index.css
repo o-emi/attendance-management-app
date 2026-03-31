@@ -1,0 +1,99 @@
+.staff-index {
+    padding: 60px 20px;
+    background-color: #f1f1f1;
+    min-height: calc(100vh - 80px);
+}
+
+.staff-index__inner {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+}
+
+.staff-index__header {
+    margin-bottom: 30px;
+}
+
+.staff-index__title {
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 12px;
+    border-left: 5px solid #000;
+    line-height: 1.2;
+    margin-bottom: 30px;
+}
+
+.staff-table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.staff-table__head {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.staff-table__label {
+    padding: 20px;
+    color: #999;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+}
+
+.staff-table__row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.staff-table__row:last-child {
+    border-bottom: none;
+}
+
+.staff-table__data {
+    padding: 20px;
+    color: #333;
+    font-size: 15px;
+    text-align: center;
+}
+
+.staff-table__link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+.staff-table__link:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .staff-index__inner {
+        max-width: 650px;
+    }
+
+    .staff-table__label,
+    .staff-table__data {
+        padding: 15px 10px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .staff-index__inner {
+        max-width: 1000px;
+    }
+
+    .staff-table__label,
+    .staff-table__data {
+        padding: 25px 20px;
+        font-size: 16px;
+    }
+
+    .staff-index__title {
+        font-size: 28px;
+    }
+}
