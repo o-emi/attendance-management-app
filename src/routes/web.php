@@ -109,5 +109,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
     Route::get('/admin/staff/list', [AdminUserController::class, 'index'])
         ->name('admin.staff.list');
 
+    Route::get('/attendance/staff/{id}', [AdminUserController::class, 'showAttendance'])
+        ->name('admin.staff.attendance');
 
 });
