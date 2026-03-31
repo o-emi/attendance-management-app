@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin\CorrectionRequestController;
+use App\Models\User;
+use App\Http\Controllers\Admin\AdminUserController;
+
 
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'loginRedirect']);
@@ -96,12 +99,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
         ->name('admin.request.list');
 
     Route::get('/stamp_correction_request/approve/{id}',
-    [CorrectionRequestController::class, 'show'])
+        [CorrectionRequestController::class, 'show'])
         ->name('admin.request.show');
 
     Route::post('/stamp_correction_request/approve/{id}',
         [CorrectionRequestController::class, 'approve'])
         ->name('admin.request.approve');
+
+    Route::get('/admin/staff/list', [AdminUserController::class, 'index'])
+        ->name('admin.staff.list');
 
 
 });
