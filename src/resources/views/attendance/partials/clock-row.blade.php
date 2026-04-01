@@ -9,13 +9,13 @@
 
         @if($attendance->status === '承認待ち')
             <span class="attendance-detail__text">
-                {{ $latestRequest->start_time
+                {{ $latestRequest?->start_time
                     ? \Carbon\Carbon::parse($latestRequest->start_time)->format('H:i')
                     : $attendance->clock_in?->format('H:i') }}
             </span>
             <span class="attendance-detail__separator">〜</span>
             <span class="attendance-detail__text">
-                {{ $latestRequest->end_time
+                {{ $latestRequest?->end_time
                     ? \Carbon\Carbon::parse($latestRequest->end_time)->format('H:i')
                     : $attendance->clock_out?->format('H:i') }}
             </span>
