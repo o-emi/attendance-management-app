@@ -57,6 +57,18 @@ class Attendance extends Model
         return gmdate('H:i', $this->break_total_seconds);
     }
 
+    public function getBreakTotalSecondsAttribute()
+    {
+        return $this->breakTimes->sum(function ($breakTime) {
+            if (!$breakTime->break_start || !$breakTime->break_end) {
+                return 0;
+            }
+
+            return Carbon::parse($breakTime->break_start)
+                ->diffInSeconds(Carbon::parse($breakTime->break_end));
+        });
+    }
+
     public function getWorkTotalAttribute()
     {
         if (!$this->work_total_seconds) {

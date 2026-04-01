@@ -111,5 +111,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function (){
 
     Route::get('/attendance/staff/{id}', [AdminUserController::class, 'showAttendance'])
         ->name('admin.staff.attendance');
-
 });
