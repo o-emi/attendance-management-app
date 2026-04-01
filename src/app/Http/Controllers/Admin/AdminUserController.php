@@ -21,11 +21,13 @@ class AdminUserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $attendances = Attendance::where('user_id', $id)
-            ->orderBy('work_date', 'desc')
-            ->get();
+        $currentMonth = request('month', Carbon::now()->format('Y-m'));
 
-        $currentMonth = Carbon::now()->format('Y年m月');
+        $attendances = Attendance::where('user_id', $id)
+        ->whereYear('work_date', Carbon::parse($currentMonth)->year)
+        ->whereMonth('work_date', Carbon::parse($currentMonth)->month)
+        ->orderBy('work_date', 'desc')
+        ->get();
 
         return view('admin.staff.attendance', compact(
             'user',
