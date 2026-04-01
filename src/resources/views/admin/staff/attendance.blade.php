@@ -12,7 +12,7 @@
         <h2 class="attendance-detail__title">{{ $user->name }}さんの勤怠</h2>
 
         @php
-            $current = \Carbon\Carbon::parse($currentMonth . '-01');
+            $current = \Carbon\Carbon::createFromFormat('Y-m', $currentMonth);
             $prevMonth = $current->copy()->subMonth()->format('Y-m');
             $nextMonth = $current->copy()->addMonth()->format('Y-m');
         @endphp
@@ -27,7 +27,7 @@
             <div class="attendance-detail__current-month">
                 <img src="{{ asset('images/icon/calendar.png') }}" alt="" class="attendance-detail__calendar-icon">
                 <span class="attendance-detail__month-text">
-                    {{ \Carbon\Carbon::parse($currentMonth . '-01')->format('Y/m') }}
+                    {{ $current->format('Y/m') }}
                 </span>
             </div>
 
@@ -51,36 +51,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($attendances as $attendance) {{-- 仮の変数名です --}}
-                    <tr class="attendance-detail__table-row">
-                        <td class="attendance-detail__table-item">{{ \Carbon\Carbon::parse($attendance->work_date)->format('m/d(D)') }}
-                        </td>
+                    @foreach($period as $date)
+                        @php
+                            $attendance = $attendances[$date->format('Y-m-d')] ?? null;
+                        @endphp
 
-                        <td class="attendance-detail__table-item">{{ $attendance->clock_in ?? '' }}
-                        </td>
+                        <tr class="attendance-detail__table-row">
+                            <td class="attendance-detail__table-item">
+                                {{ $date->locale('ja')->isoFormat('MM/DD(ddd)') }}
+                            </td>
 
-                        <td class="attendance-detail__table-item">{{ $attendance->clock_out ?? '' }}
-                        </td>
+                            <td class="attendance-detail__table-item">
+                                {{ $attendance?->clock_in?->format('H:i') }}
+                            </td>
 
-                        <td class="attendance-detail__table-item">{{ $attendance->break_time ?? '' }}
-                        </td>
+                            <td class="attendance-detail__table-item">
+                                {{ $attendance?->clock_out?->format('H:i') }}
+                            </td>
 
-                        <td class="attendance-detail__table-item">{{ $attendance->total_work_time ?? '' }}
-                        </td>
+                            <td class="attendance-detail__table-item">
+                                {{ $attendance?->break_total_seconds ? gmdate('H:i', $attendance->break_total_seconds) : '' }}
+                            </td>
 
-                        <td class="attendance-detail__table-item">
-                            <a href="{{ route('admin.attendance.show', $attendance->id) }}"
-                            class="attendance-detail__link">
-                                詳細
-                            </a>
-                        </td>
-                    </tr>
+                            <td class="attendance-detail__table-item">
+                                {{ $attendance?->work_total_seconds ? gmdate('H:i', $attendance->work_total_seconds) : '' }}
+                            </td>
+
+                            <td class="attendance-detail__table-item">
+                                @if($attendance)
+                                    <a href="{{ route('admin.attendance.show', $attendance->id) }}"
+                                        class="attendance-detail__link">
+                                        詳細
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
 
-        {{-- CSV出力ボタン --}}
         <div class="attendance-detail__action">
             <button type="button" class="attendance-detail__csv-btn">CSV出力</button>
         </div>
