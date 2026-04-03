@@ -35,16 +35,16 @@
                 <th class="attendance-detail__label">出勤・退勤</th>
                 <td class="attendance-detail__data">
                     <span class="attendance-detail__time">
-                        {{ \Carbon\Carbon::parse($correctionRequest->clock_in)->format('H:i') }}
+                        {{ \Carbon\Carbon::parse($correctionRequest->start_time)->format('H:i') }}
                     </span>
                     <span class="attendance-detail__separator">〜</span>
                     <span class="attendance-detail__time">
-                        {{ \Carbon\Carbon::parse($correctionRequest->clock_out)->format('H:i') }}
+                        {{ \Carbon\Carbon::parse($correctionRequest->end_time)->format('H:i') }}
                     </span>
                 </td>
             </tr>
 
-            @foreach($correctionRequest->break_times as $index => $break)
+            @foreach($correctionRequest->breakTimes ?? [] as $index => $breakTime)
                 <tr class="attendance-detail__row">
                     <th class="attendance-detail__label">
                         {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
@@ -52,11 +52,11 @@
 
                     <td class="attendance-detail__data">
                         <span class="attendance-detail__time">
-                            {{ \Carbon\Carbon::parse($break['start'])->format('H:i') }}
+                            {{ \Carbon\Carbon::parse($breakTime->break_start)->format('H:i') }}
                         </span>
                         <span class="attendance-detail__separator">〜</span>
                         <span class="attendance-detail__time">
-                            {{ \Carbon\Carbon::parse($break['end'])->format('H:i') }}
+                            {{ \Carbon\Carbon::parse($breakTime->break_end)->format('H:i') }}
                         </span>
                     </td>
                 </tr>

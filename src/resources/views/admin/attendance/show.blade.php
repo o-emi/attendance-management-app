@@ -35,7 +35,13 @@
 
             @include('attendance.partials.clock-row')
 
-            @foreach($attendance->breakTimes as $index => $break)
+            @php
+                $breakTimes = $attendance->status === '承認待ち' && $latestRequest
+                    ? $latestRequest->breakTimes
+                    : $attendance->breakTimes;
+            @endphp
+
+            @foreach($breakTimes as $index => $break)
                 @include('attendance.partials.break-row', [
                     'index' => $index,
                     'break' => $break,
@@ -45,7 +51,7 @@
 
             @if($attendance->status !== '承認待ち')
                 @include('attendance.partials.break-row-add', [
-                    'index' => $attendance->breakTimes->count()
+                    'index' => $breakTimes->count()
                 ])
             @endif
 

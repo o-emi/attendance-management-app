@@ -13,11 +13,15 @@
         <h2 class="attendance-detail__title">勤怠詳細</h2>
 
         @php
-            $latestRequest = $attendance->correctionRequests()->latest()->first();
+            $latestRequest = $attendance->correctionRequests()
+                ->with('breakTimes')
+                ->latest()
+                ->first();
+
             $isPending = $attendance->status === '承認待ち';
 
             $displayBreaks = $isPending
-                ? collect($latestRequest->break_times ?? [])
+                ? ($latestRequest ? $latestRequest->breakTimes : collect())
                 : $attendance->breakTimes;
 
             $displayNote = $isPending
@@ -46,25 +50,17 @@
 
                 @include('attendance.partials.clock-row')
 
-                @if($attendance->status === '承認待ち')
-                    @foreach(($latestRequest->break_times ?? []) as $index => $break)
-                        @include('attendance.partials.break-row', [
-                            'index' => $index,
-                            'break' => $break,
-                            'isPending' => true
-                        ])
-                    @endforeach
-                @else
-                    @foreach($attendance->breakTimes as $index => $break)
-                        @include('attendance.partials.break-row', [
-                            'index' => $index,
-                            'break' => $break,
-                            'isPending' => $isPending
-                        ])
-                    @endforeach
+                @foreach($displayBreaks as $index => $break)
+                    @include('attendance.partials.break-row', [
+                        'index' => $index,
+                        'break' => $break,
+                        'isPending' => $isPending
+                    ])
+                @endforeach
 
+                @if(!$isPending)
                     @include('attendance.partials.break-row-add', [
-                        'index' => count($displayBreaks),
+                        'index' => $displayBreaks->count(),
                         'isPending' => $isPending
                     ])
                 @endif
@@ -83,7 +79,7 @@
                 </div>
             @endif
 
-            @if($attendance->status !== '承認待ち')
+            @if(!$isPending)
                 <div class="attendance-detail__actions">
                     <button type="submit" class="attendance-detail__submit-btn">修正</button>
                 </div>

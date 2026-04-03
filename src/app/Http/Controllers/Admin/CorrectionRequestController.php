@@ -27,34 +27,44 @@ class CorrectionRequestController extends Controller
 
     public function show($id)
     {
-        $correctionRequest = CorrectionRequest::with('attendance.breakTimes', 'user')
-            ->findOrFail($id);
+        $correctionRequest = CorrectionRequest::with([
+            'attendance.breakTimes',
+            'breakTimes',
+            'user'
+        ])->findOrFail($id);
 
         return view('admin.correction_requests.show', compact('correctionRequest'));
     }
 
     public function approve($id)
     {
-        $correctionRequest = CorrectionRequest::with('attendance')
+        $correctionRequest = CorrectionRequest::with('breakTimes', 'attendance.breakTimes')
             ->findOrFail($id);
 
         DB::transaction(function () use ($correctionRequest) {
 
             $attendance = $correctionRequest->attendance;
 
-            $correctionRequest->status = 'approved';
-            $correctionRequest->save();
+        // 修正申請を承認済みにする
+            $correctionRequest->update([
+                'status' => 'approved',
+            ]);
 
-            $attendance->clock_in = $correctionRequest->clock_in;
-            $attendance->clock_out = $correctionRequest->clock_out;
-            $attendance->save();
+        // 勤怠情報更新
+            $attendance->update([
+                'clock_in' => $correctionRequest->start_time,
+                'clock_out' => $correctionRequest->end_time,
+                'remark' => $correctionRequest->note,
+            ]);
 
+        // 既存休憩削除
             $attendance->breakTimes()->delete();
 
-            foreach ($correctionRequest->break_times as $break) {
+        // 修正申請の休憩を勤怠へ反映
+            foreach ($correctionRequest->breakTimes ?? [] as $breakTime) {
                 $attendance->breakTimes()->create([
-                    'break_start' => $break['start'],
-                    'break_end'    => $break['end'],
+                    'break_start' => $breakTime->break_start,
+                    'break_end' => $breakTime->break_end,
                 ]);
             }
         });

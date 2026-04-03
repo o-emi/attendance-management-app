@@ -6,21 +6,13 @@
     <div class="attendance-detail__content attendance-detail__input-row">
         @if($isPending)
             <span class="attendance-detail__text">
-                {{
-                    is_array($break)
-                        ? (!empty($break['start']) ? \Carbon\Carbon::parse($break['start'])->format('H:i') : (!empty($break['break_start']) ? \Carbon\Carbon::parse($break['break_start'])->format('H:i') : ''))
-                        : (!empty($break->start) ? \Carbon\Carbon::parse($break->start)->format('H:i') : (!empty($break->break_start) ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : ''))
-                    }}
+                {{ $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '' }}
             </span>
 
             <span class="attendance-detail__separator">〜</span>
 
             <span class="attendance-detail__text">
-                {{
-                    is_array($break)
-                        ? (!empty($break['end']) ? \Carbon\Carbon::parse($break['end'])->format('H:i') : (!empty($break['break_end']) ? \Carbon\Carbon::parse($break['break_end'])->format('H:i') : ''))
-                        : (!empty($break->end) ? \Carbon\Carbon::parse($break->end)->format('H:i') : (!empty($break->break_end) ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : ''))
-                }}
+                {{ $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '' }}
             </span>
         @else
             <input
@@ -36,8 +28,7 @@
                 type="time"
                 name="break_end[]"
                 class="attendance-detail__input"
-                value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
-            >
+                value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
         @endif
     </div>
 </div>
