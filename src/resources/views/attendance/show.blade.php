@@ -13,15 +13,12 @@
         <h2 class="attendance-detail__title">勤怠詳細</h2>
 
         @php
-            $latestRequest = $attendance->correctionRequests()
-                ->with('breakTimes')
-                ->latest()
-                ->first();
+            $latestRequest = $attendance->correctionRequests()->latest()->first();
 
-            $isPending = $attendance->status === '承認待ち';
+            $isPending = $latestRequest && $latestRequest->status === 'pending';
 
             $displayBreaks = $isPending
-                ? ($latestRequest ? $latestRequest->breakTimes : collect())
+                ? $latestRequest->breakTimes
                 : $attendance->breakTimes;
 
             $displayNote = $isPending
