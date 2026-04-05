@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CorrectionRequestBreakTime;
 
 class CorrectionRequest extends Model
 {
@@ -31,5 +32,10 @@ class CorrectionRequest extends Model
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
+    }
+
+    public function breakTimes()
+    {
+        return $this->hasMany(CorrectionRequestBreakTime::class);
     }
 }

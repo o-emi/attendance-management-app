@@ -140,6 +140,7 @@ class AttendanceController extends Controller
             ->findOrFail($id);
 
         $latestRequest = $attendance->correctionRequests()
+            ->with('breakTimes')
             ->latest()
             ->first();
 
@@ -150,7 +151,14 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
 
-        $breakTimes = [];
+        $correctionRequest = CorrectionRequest::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $attendance->id,
+            'start_time' => $request->clock_in,
+            'end_time' => $request->clock_out,
+            'note' => $request->remark,
+            'status' => 'pending',
+        ]);
 
         foreach ($request->break_start as $index => $start) {
             $end = $request->break_end[$index] ?? null;
@@ -159,21 +167,11 @@ class AttendanceController extends Controller
                 continue;
             }
 
-            $breakTimes[] = [
-                'start' => $start,
-                'end' => $end,
-            ];
+            $correctionRequest->breakTimes()->create([
+                'break_start' => $start,
+                'break_end' => $end,
+            ]);
         }
-
-        CorrectionRequest::create([
-            'user_id' => auth()->id(),
-            'attendance_id' => $attendance->id,
-            'start_time' => $request->clock_in,
-            'end_time' => $request->clock_out,
-            'note' => $request->remark,
-            'break_times' => $breakTimes,
-            'status' => 'pending',
-        ]);
 
         $attendance->update([
             'status' => '承認待ち'

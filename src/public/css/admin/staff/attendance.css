@@ -2,6 +2,8 @@
     padding: 60px 20px;
     background-color: #f5f5f5;
     min-height: calc(100vh - 60px);
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    color: #333;
 }
 
 .attendance-detail__inner {
@@ -23,15 +25,16 @@
     align-items: center;
     background-color: #fff;
     padding: 12px 25px;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-bottom: 15px;
     border: 1px solid #eee;
 }
 
 .attendance-detail__nav-link {
     text-decoration: none;
-    color: #888;
-    font-size: 13px;
+    color: #666;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .attendance-detail__current-month {
@@ -40,7 +43,6 @@
     letter-spacing: 0.05em;
 }
 
-/* Table */
 .attendance-detail__table-wrapper {
     background-color: #fff;
     border-radius: 2px;
@@ -53,30 +55,31 @@
 }
 
 .attendance-detail__table-header {
-    padding: 15px;
-    font-size: 13px;
-    color: #999;
-    font-weight: normal;
+    padding: 18px 15px;
+    font-size: 14px;
+    color: #888;
+    font-weight: bold;
     border-bottom: 1px solid #eee;
     text-align: left;
 }
 
-/* 各列の幅を固定気味にすることで、文字が離れすぎるのを防ぐ */
 .attendance-detail__table-header:nth-child(1),
-.attendance-detail__table-item:nth-child(1) { width: 20%; }
+.attendance-detail__table-item:nth-child(1) { width: 22%; }
 .attendance-detail__table-header:nth-child(6),
-.attendance-detail__table-item:nth-child(6) { width: 10%; text-align: center; }
+.attendance-detail__table-item:nth-child(6) { width: 12%; text-align: center; }
 
 .attendance-detail__table-item {
-    padding: 15px;
-    font-size: 14px;
+    padding: 18px 15px;
+    font-size: 15px;
+    color: #555;
+    font-weight: 700;
     border-bottom: 1px solid #eee;
 }
 
 .attendance-detail__link {
     color: #000;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
 }
 
 /* Action */
@@ -90,11 +93,11 @@
     background-color: #000;
     color: #fff;
     border: none;
-    padding: 10px 35px;
+    padding: 12px 45px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
@@ -109,11 +112,7 @@
     }
     .attendance-detail__table-header,
     .attendance-detail__table-item {
-        padding: 12px 10px;
+        padding: 14px 10px;
         font-size: 13px;
-    }
-
-    .attendance-detail__csv-btn {
-        width: 100%;
     }
 }

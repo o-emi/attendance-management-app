@@ -28,6 +28,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::with('user', 'breakTimes', 'correctionRequests')->findOrFail($id);
 
         $latestRequest = $attendance->correctionRequests()
+            ->with('breakTimes')
             ->latest()
             ->first();
 
