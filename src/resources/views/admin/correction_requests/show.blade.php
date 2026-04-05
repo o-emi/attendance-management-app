@@ -72,15 +72,25 @@
     </div>
 
     <div class="admin-approval__actions">
-        <form action="{{ route('admin.request.approve', $correctionRequest->id) }}" method="POST">
-            @csrf
+        @if($correctionRequest->status === 'pending')
+            <form action="{{ route('admin.request.approve', $correctionRequest->id) }}" method="POST">
+                @csrf
+                <button
+                    type="submit"
+                    class="admin-approval__button admin-approval__button--approve"
+                >
+                    承認
+                </button>
+            </form>
+        @else
             <button
-                type="submit"
-                class="admin-approval__button admin-approval__button--approve"
+                type="button"
+                class="admin-approval__button admin-approval__button--approved"
+                disabled
             >
-                承認
+                承認済み
             </button>
-        </form>
+        @endif
     </div>
 </div>
 @endsection
