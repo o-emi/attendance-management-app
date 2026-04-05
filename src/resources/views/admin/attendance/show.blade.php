@@ -36,7 +36,9 @@
             @include('attendance.partials.clock-row')
 
             @php
-                $breakTimes = $attendance->status === '承認待ち' && $latestRequest
+                $isPending = $latestRequest && $latestRequest->status === 'pending';
+
+                $breakTimes = $isPending
                     ? $latestRequest->breakTimes
                     : $attendance->breakTimes;
             @endphp
@@ -45,11 +47,11 @@
                 @include('attendance.partials.break-row', [
                     'index' => $index,
                     'break' => $break,
-                    'isPending' => $attendance->status === '承認待ち'
+                    'isPending' => $isPending
                 ])
             @endforeach
 
-            @if($attendance->status !== '承認待ち')
+            @if(!$isPending)
                 @include('attendance.partials.break-row-add', [
                     'index' => $breakTimes->count()
                 ])
@@ -57,7 +59,7 @@
 
             @include('attendance.partials.note-row')
 
-            @if($attendance->status !== '承認待ち')
+            @if(!$isPending)
                 <div class="attendance-detail__actions">
                     <button type="submit" class="attendance-detail__submit-btn">修正</button>
                 </div>

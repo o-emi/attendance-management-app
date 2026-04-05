@@ -74,6 +74,12 @@
     color: #fff;
 }
 
+.admin-approval__button--approved {
+    background-color: #9ca3af;
+    color: #fff;
+    cursor: not-allowed;
+}
+
 .admin-approval__button:hover {
     opacity: 0.8;
 }
