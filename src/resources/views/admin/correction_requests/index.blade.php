@@ -41,6 +41,7 @@
 
             <tbody class="request-table__body">
                 @foreach($requests as $request)
+
                     <tr class="request-table__row">
                         <td class="request-table__item">
                             {{ $request->status === 'pending' ? '承認待ち' : '承認済み' }}
