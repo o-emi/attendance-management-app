@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\CorrectionRequest;
-use App\Http\Requests\AttendanceUpdateRequest;
-
 
 class AttendanceController extends Controller
 {
@@ -20,17 +18,14 @@ class AttendanceController extends Controller
             ->whereDate('work_date', today())
             ->first();
 
-        if (!$today) {
+        if (!$today || !$today->clock_in) {
             $status = '勤務外';
-
         } elseif ($today->clock_in && !$today->clock_out) {
-
             $onBreak = $today->breakTimes()
                 ->whereNull('break_end')
                 ->exists();
 
             $status = $onBreak ? '休憩中' : '出勤中';
-
         } else {
             $status = '退勤済';
         }
@@ -38,18 +33,13 @@ class AttendanceController extends Controller
         return view('attendance.index', compact('status'));
     }
 
-
     public function punch()
     {
         $today = Attendance::firstOrCreate(
-            [
-                'user_id' => auth()->id(),
-                'work_date' => today()
-            ]
+            ['user_id' => auth()->id(), 'work_date' => today()]
         );
 
         if (!$today->clock_in) {
-
             $today->update([
                 'clock_in' => now(),
                 'status' => '出勤中'
@@ -59,7 +49,6 @@ class AttendanceController extends Controller
         }
 
         if (!$today->clock_out) {
-
             $today->update([
                 'clock_out' => now(),
                 'status' => '退勤済'
@@ -163,9 +152,7 @@ class AttendanceController extends Controller
         foreach ($request->break_start as $index => $start) {
             $end = $request->break_end[$index] ?? null;
 
-            if (!$start && !$end) {
-                continue;
-            }
+            if (!$start && !$end) continue;
 
             $correctionRequest->breakTimes()->create([
                 'break_start' => $start,
