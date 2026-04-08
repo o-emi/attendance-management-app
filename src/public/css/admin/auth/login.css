@@ -1,9 +1,9 @@
 .admin-login-form {
-    width: 100%; /* 親要素に対して全幅 */
-    max-width: 600px; /* ボックスの最大幅を少し広めに設定 */
+    width: 100%;
+    max-width: 600px;
     background-color: white;
-    margin: 50px auto; /* 左右中央寄せ */
-    padding: 60px 40px; /* 上下の余白を広げるとより綺麗です */
+    margin: 50px auto;
+    padding: 60px 40px;
     border-radius: 5px;
     box-sizing: border-box;
 }
@@ -16,8 +16,8 @@
 }
 
 .admin-login-form__inner {
-    width: 80%; /* ボックスの中で少し余裕を持たせる */
-    margin: 0 auto; /* フォーム自体を中央に配置 */
+    width: 80%;
+    margin: 0 auto;
 }
 
 .admin-login-form__group {
