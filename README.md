@@ -175,6 +175,14 @@ MAIL_FROM_NAME="Attendance Management App"
 
 ---
 
+## テーブル構成
+
+- users：ユーザー情報
+- attendances：勤怠情報
+- break_times：休憩情報
+- correction_requests：勤怠修正申請情報
+- correction_request_break_times：休憩修正申請情報
+
 ## ER図
 ![ER図](docs/er.png)
 
