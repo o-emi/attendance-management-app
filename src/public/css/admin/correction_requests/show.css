@@ -83,3 +83,61 @@
 .admin-approval__button:hover {
     opacity: 0.8;
 }
+
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+
+    .admin-approval {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    .admin-approval__title {
+        font-size: 22px;
+        padding-left: 12px;
+    }
+
+    .attendance-detail__label,
+    .attendance-detail__data {
+        padding: 20px 30px;
+    }
+
+    .admin-approval__button {
+        padding: 10px 50px;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+
+    .admin-approval {
+        max-width: 90%;
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    .admin-approval__title {
+        font-size: 20px;
+        padding-left: 10px;
+        margin-bottom: 20px;
+    }
+
+    .attendance-detail__label,
+    .attendance-detail__data {
+        padding: 15px 20px;
+        font-size: 14px;
+    }
+
+    .admin-approval__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .admin-approval__button {
+        padding: 10px 40px;
+        font-size: 14px;
+        width: 100%;
+    }
+}
