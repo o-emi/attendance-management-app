@@ -41,7 +41,7 @@ class AttendanceController extends Controller
 
         if ($attendance->status === '承認待ち') {
             return back()->withErrors([
-                '承認待ちのため修正はできません。'
+                'attendance' => '承認待ちのため修正はできません。'
             ]);
         }
 
@@ -64,40 +64,39 @@ class AttendanceController extends Controller
 
         if ($clockIn->gte($clockOut)) {
             return back()->withErrors([
-                'clock_time' => '出勤時間もしくは退勤時間が不適切な値です'
+                'clock_in' => '出勤時間もしくは退勤時間が不適切な値です',
+                // 'clock_out' => '出勤時間もしくは退勤時間が不適切な値です',
             ])->withInput();
         }
 
         if ($request->has('break_start')) {
-
             foreach ($request->break_start as $index => $start) {
-
                 if (!$start) {
                     continue;
                 }
 
                 $breakStart = $workDate->copy()->setTimeFromTimeString($start);
+                $end = $request->break_end[$index] ?? null;
 
                 if ($breakStart->lt($clockIn) || $breakStart->gt($clockOut)) {
                     return back()->withErrors([
-                        'break_time' => '休憩時間が不適切な値です'
+                        "break_start.$index" => '休憩時間が不適切な値です',
                     ])->withInput();
                 }
-
-                $end = $request->break_end[$index] ?? null;
 
                 if ($end) {
                     $breakEnd = $workDate->copy()->setTimeFromTimeString($end);
 
                     if ($breakStart->gte($breakEnd)) {
                         return back()->withErrors([
-                            'break_time' => '休憩時間が不適切な値です'
+                            "break_start.$index" => '休憩時間が不適切な値です',
+                            // "break_end.$index" => '休憩時間が不適切な値です',
                         ])->withInput();
-                }
+                    }
 
                     if ($breakEnd->gt($clockOut)) {
                         return back()->withErrors([
-                            'break_time' => '休憩時間もしくは退勤時間が不適切な値です'
+                            "break_end.$index" => '休憩時間もしくは退勤時間が不適切な値です',
                         ])->withInput();
                     }
                 }
@@ -110,21 +109,23 @@ class AttendanceController extends Controller
             'remark' => $request->remark,
         ]);
 
+        $attendance->breakTimes()->delete();
+
         if ($request->has('break_start')) {
-
             foreach ($request->break_start as $index => $start) {
-
                 $end = $request->break_end[$index] ?? null;
 
-                $break = $attendance->breakTimes->get($index);
-
-                if (!$break) {
+                if (!$start && !$end) {
                     continue;
                 }
 
-                $break->update([
-                    'break_start' => $start ? $workDate->copy()->setTimeFromTimeString($start) : null,
-                    'break_end' => $end ? $workDate->copy()->setTimeFromTimeString($end) : null,
+                $attendance->breakTimes()->create([
+                    'break_start' => $start
+                        ? $workDate->copy()->setTimeFromTimeString($start)
+                        : null,
+                    'break_end' => $end
+                        ? $workDate->copy()->setTimeFromTimeString($end)
+                        : null,
                 ]);
             }
         }

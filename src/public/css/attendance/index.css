@@ -44,8 +44,8 @@
     font-size: 105px;
     font-weight: bold;
     margin: 0;
-    line-height: 1.1;
-    letter-spacing: 0.02em;
+    line-height: 1;
+    letter-spacing: 0.05em;
     color: #000000;
 }
 
@@ -65,6 +65,19 @@
 .punch-panel__button {
     background-color: #000000;
     color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    width: 260px;
+    height: 70px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.punch-panel__button--break {
+    background-color: #fff;
+    color: #000;
     border: none;
     border-radius: 12px;
     width: 260px;
@@ -98,7 +111,8 @@
         font-size: 105px;
     }
 
-    .punch-panel__button {
+    .punch-panel__button,
+    .punch-panel__button--break {
         width: 300px;
         height: 80px;
         font-size: 30px;
@@ -121,10 +135,11 @@
     }
 
     .punch-panel__time-text {
-        font-size: 64px;
+        font-size: 80px;
     }
 
-    .punch-panel__button {
+    .punch-panel__button,
+    .punch-panel__button--break {
         width: 220px;
         height: 60px;
         font-size: 22px;

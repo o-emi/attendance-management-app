@@ -23,7 +23,7 @@
 
             $displayNote = $isPending
                 ? ($latestRequest->note ?? '')
-                : ($attendance->note ?? '');
+                : ($attendance->remark ?? '');
         @endphp
 
         <form action="{{ route('attendance.request', $attendance->id) }}" method="POST" class="attendance-detail__form">
@@ -45,7 +45,10 @@
                     </div>
                 </div>
 
-                @include('attendance.partials.clock-row')
+                @include('attendance.partials.clock-row', [
+                    'isPending' => $isPending,
+                    'latestRequest' => $latestRequest
+                ])
 
                 @foreach($displayBreaks as $index => $break)
                     @include('attendance.partials.break-row', [
@@ -67,14 +70,6 @@
                     'isPending' => $isPending
                 ])
             </div>
-
-            @if ($errors->any())
-                <div class="attendance-detail__error-box">
-                    @foreach ($errors->all() as $error)
-                        <p class="attendance-detail__error-text">{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
 
             @if(!$isPending)
                 <div class="attendance-detail__actions">

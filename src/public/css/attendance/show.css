@@ -45,12 +45,12 @@
     flex: 1;
     padding: 10px 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .attendance-detail__input-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -119,9 +119,11 @@
     width: 100%;
 }
 
-.attendance-detail__error-box {
-    margin-top: 20px;
-    text-align: right;
+.attendance-detail__field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
 }
 
 .attendance-detail__submit-btn {
@@ -139,9 +141,11 @@
     color: #ff0000;
     font-size: 14px;
     font-weight: bold;
-    display: inline-block;
-    margin: 0;
+    display: block;
+    margin-top: 6px;
+    white-space: nowrap;
 }
+
 .attendance-detail__input::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;

@@ -15,6 +15,16 @@
             <p class="attendance-detail__success">{{ session('message') }}</p>
         @endif
 
+        @php
+            $latestRequest = $attendance->correctionRequests()->latest()->first();
+
+            $isPending = $latestRequest && $latestRequest->status === 'pending';
+
+            $breakTimes = $isPending
+                ? $latestRequest->breakTimes
+                : $attendance->breakTimes;
+        @endphp
+
         <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST" class="attendance-detail__form">
             @csrf
             @method('PUT')
@@ -29,19 +39,16 @@
             <div class="attendance-detail__group">
                 <label class="attendance-detail__label">日付</label>
                 <div class="attendance-detail__content">
-                    <span class="attendance-detail__text--bold">{{ $attendance->work_date->format('Y年n月j日') }}</span>
+                    <span class="attendance-detail__text--bold">
+                        {{ $attendance->work_date->format('Y年n月j日') }}
+                    </span>
                 </div>
             </div>
 
-            @include('attendance.partials.clock-row')
-
-            @php
-                $isPending = $latestRequest && $latestRequest->status === 'pending';
-
-                $breakTimes = $isPending
-                    ? $latestRequest->breakTimes
-                    : $attendance->breakTimes;
-            @endphp
+            @include('attendance.partials.clock-row', [
+                'isPending' => $isPending,
+                'latestRequest' => $latestRequest
+            ])
 
             @foreach($breakTimes as $index => $break)
                 @include('attendance.partials.break-row', [
@@ -57,7 +64,12 @@
                 ])
             @endif
 
-            @include('attendance.partials.note-row')
+            @include('attendance.partials.note-row', [
+                'note' => $isPending
+                    ? $latestRequest->note
+                    : $attendance->remark,
+                'isPending' => $isPending
+            ])
 
             @if(!$isPending)
                 <div class="attendance-detail__actions">
@@ -65,7 +77,9 @@
                 </div>
             @else
                 <div class="attendance-detail__error">
-                    <p class="attendance-detail__error-text">承認待ちのため修正はできません。</p>
+                    <p class="attendance-detail__error-text">
+                        承認待ちのため修正はできません。
+                    </p>
                 </div>
             @endif
         </form>

@@ -16,11 +16,15 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
-        if ($user->role === 'admin') {
+        if ($user && $user->role === 'admin') {
             return redirect()->route('admin.index');
         }
 
-        return redirect()->route('attendance.index');
+        if ($user) {
+            return redirect()->route('attendance.index');
+        }
+
+        return back();
     }
 
     public function registerRedirect(Request $request)
