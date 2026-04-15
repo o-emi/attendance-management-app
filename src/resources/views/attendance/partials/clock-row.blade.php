@@ -7,32 +7,50 @@
             $latestRequest = $attendance->correctionRequests()->latest()->first();
         @endphp
 
-        @if($attendance->status === '承認待ち')
+        @if($isPending)
             <span class="attendance-detail__text">
                 {{ $latestRequest?->start_time
                     ? \Carbon\Carbon::parse($latestRequest->start_time)->format('H:i')
                     : $attendance->clock_in?->format('H:i') }}
             </span>
+
             <span class="attendance-detail__separator">〜</span>
+
             <span class="attendance-detail__text">
                 {{ $latestRequest?->end_time
                     ? \Carbon\Carbon::parse($latestRequest->end_time)->format('H:i')
                     : $attendance->clock_out?->format('H:i') }}
             </span>
+
         @else
-            <input type="time"
-                name="clock_in"
-                class="attendance-detail__input"
-                value="{{ old('clock_in', $attendance->clock_in?->format('H:i')) }}">
+            <div class="attendance-detail__field">
+                <input
+                    type="time"
+                    name="clock_in"
+                    class="attendance-detail__input"
+                    value="{{ old('clock_in', $attendance->clock_in?->format('H:i')) }}"
+                >
+
+                @error('clock_in')
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
+            </div>
+
             <span class="attendance-detail__separator">〜</span>
-            <input type="time"
-                name="clock_out"
-                class="attendance-detail__input"
-                value="{{ old('clock_out', $attendance->clock_out?->format('H:i')) }}">
+
+            <div class="attendance-detail__field">
+                <input
+                    type="time"
+                    name="clock_out"
+                    class="attendance-detail__input"
+                    value="{{ old('clock_out', $attendance->clock_out?->format('H:i')) }}"
+                >
+
+                @error('clock_out')
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
+            </div>
         @endif
 
-        @error('clock_time')
-            <p class="attendance-detail__error-text">{{ $message }}</p>
-        @enderror
     </div>
 </div>

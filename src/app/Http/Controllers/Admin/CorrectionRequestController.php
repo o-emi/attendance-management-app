@@ -45,22 +45,19 @@ class CorrectionRequestController extends Controller
 
             $attendance = $correctionRequest->attendance;
 
-        // 修正申請を承認済みにする
+
             $correctionRequest->update([
                 'status' => 'approved',
             ]);
 
-        // 勤怠情報更新
             $attendance->update([
                 'clock_in' => $correctionRequest->start_time,
                 'clock_out' => $correctionRequest->end_time,
                 'remark' => $correctionRequest->note,
             ]);
 
-        // 既存休憩削除
             $attendance->breakTimes()->delete();
 
-        // 修正申請の休憩を勤怠へ反映
             foreach ($correctionRequest->breakTimes ?? [] as $breakTime) {
                 $attendance->breakTimes()->create([
                     'break_start' => $breakTime->break_start,
@@ -69,7 +66,7 @@ class CorrectionRequestController extends Controller
             }
         });
 
-        return redirect()->route('admin.request.list')
-            ->with('success', '承認しました');
-    }
+            return redirect()->route('admin.request.list',['status'        =>         'approved'])
+                ->with('success', '承認しました');
+            }
 }

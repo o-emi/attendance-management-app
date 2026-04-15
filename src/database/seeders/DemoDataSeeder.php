@@ -38,6 +38,10 @@ class DemoDataSeeder extends Seeder
             for ($i = 30; $i >= 1; $i--) {
                 $workDate = now()->subDays($i)->format('Y-m-d');
 
+                if (rand(1, 10) === 1) {
+                    continue;
+                }
+
                 $attendance = Attendance::factory()->create([
                     'user_id' => $user->id,
                     'work_date' => $workDate,

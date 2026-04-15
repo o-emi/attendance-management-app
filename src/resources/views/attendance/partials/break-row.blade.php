@@ -14,21 +14,35 @@
             <span class="attendance-detail__text">
                 {{ $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '' }}
             </span>
+
         @else
-            <input
-                type="time"
-                name="break_start[]"
-                class="attendance-detail__input"
-                value="{{ old('break_start.' . $index, $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}"
-            >
+            <div class="attendance-detail__field">
+                <input
+                    type="time"
+                    name="break_start[]"
+                    class="attendance-detail__input"
+                    value="{{ old('break_start.' . $index, $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '') }}"
+                >
+
+                @error("break_start.$index")
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
+            </div>
 
             <span class="attendance-detail__separator">〜</span>
 
-            <input
-                type="time"
-                name="break_end[]"
-                class="attendance-detail__input"
-                value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}">
+            <div class="attendance-detail__field">
+                <input
+                    type="time"
+                    name="break_end[]"
+                    class="attendance-detail__input"
+                    value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
+                >
+
+                @error("break_end.$index")
+                    <p class="attendance-detail__error-text">{{ $message }}</p>
+                @enderror
+            </div>
         @endif
     </div>
 </div>

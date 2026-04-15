@@ -37,24 +37,24 @@
                 @if($status === '勤務外')
                     <form method="POST" action="{{ route('attendance.punch') }}">
                         @csrf
-                        <button type="submit" class="punch-panel__button">出勤</button>
+                        <button type="submit" class="punch-panel__button">出 勤</button>
                     </form>
 
                 @elseif($status === '出勤中')
                     <form method="POST" action="{{ route('attendance.punch') }}">
                         @csrf
-                        <button type="submit" class="punch-panel__button">退勤</button>
+                        <button type="submit" class="punch-panel__button">退 勤</button>
                     </form>
 
                     <form method="POST" action="{{ route('attendance.break.start') }}">
                         @csrf
-                        <button type="submit" class="punch-panel__button">休憩入</button>
+                        <button type="submit" class="punch-panel__button--break">休 憩 入</button>
                     </form>
 
                 @elseif($status === '休憩中')
                     <form method="POST" action="{{ route('attendance.break.end') }}">
                         @csrf
-                        <button type="submit" class="punch-panel__button">休憩戻</button>
+                        <button type="submit" class="punch-panel__button--break">休 憩 戻</button>
                     </form>
 
                 @elseif($status === '退勤済')
@@ -70,8 +70,7 @@
             const now = new Date();
             const h = String(now.getHours()).padStart(2,'0');
             const m = String(now.getMinutes()).padStart(2,'0');
-            const s = String(now.getSeconds()).padStart(2,'0');
-            document.getElementById('current-time').textContent = `${h}:${m}:${s}`;
+            document.getElementById('current-time').textContent = `${h}:${m}`;
         }
         updateTime();
         setInterval(updateTime, 1000);

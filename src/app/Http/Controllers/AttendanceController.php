@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\CorrectionRequest;
+use App\Http\Requests\AttendanceUpdateRequest;
 
 class AttendanceController extends Controller
 {
@@ -136,9 +137,10 @@ class AttendanceController extends Controller
         return view('attendance.show', compact('attendance', 'latestRequest'));
     }
 
-    public function request(Request $request, $id)
+    public function request(AttendanceUpdateRequest $request, $id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::where('user_id', auth()->id())
+        ->findOrFail($id);
 
         $correctionRequest = CorrectionRequest::create([
             'user_id' => auth()->id(),
@@ -161,7 +163,7 @@ class AttendanceController extends Controller
         }
 
         $attendance->update([
-            'status' => '承認待ち'
+            'status' => 'pending',
         ]);
 
         return redirect()->back()->with('message', '修正申請を送信しました');

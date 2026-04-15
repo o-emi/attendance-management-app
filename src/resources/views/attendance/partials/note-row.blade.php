@@ -2,19 +2,19 @@
     <label class="attendance-detail__label">備考</label>
 
     <div class="attendance-detail__content">
-
-        @if($attendance->status === '承認待ち')
-            <span class="attendance-detail__text">
-                {{ $latestRequest->note ?? $attendance->remark }}
+        @if($isPending)
+            <span class="attendance-detail__textarea-span">
+                {{ $note }}
             </span>
         @else
-            <textarea name="remark" class="attendance-detail__textarea">
-                {{ old('remark', $attendance->remark) }}
-            </textarea>
-        @endif
+            <textarea
+                name="note"
+                class="attendance-detail__textarea"
+            >{{ old('note', $note) }}</textarea>
 
-        @error('remark')
-            <p class="attendance-detail__error-text">{{ $message }}</p>
-        @enderror
+            @error('note')
+                <p class="attendance-detail__error-text">{{ $message }}</p>
+            @enderror
+        @endif
     </div>
 </div>
