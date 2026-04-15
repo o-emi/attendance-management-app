@@ -24,8 +24,12 @@ class AuthController extends Controller
             return redirect()->route('attendance.index');
         }
 
-        return back();
-    }
+        return back()
+            ->withErrors([
+                'email' => 'ログイン情報が正しくありません',
+            ])
+            ->withInput();
+        }
 
     public function registerRedirect(Request $request)
     {

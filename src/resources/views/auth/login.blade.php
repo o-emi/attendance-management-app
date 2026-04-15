@@ -25,9 +25,9 @@
                 <label class="login-form__label" for="password">パスワード</label>
                 <input class="login-form__input" type="password" name="password" id="password">
                 <p class="login-form__error-message">
-                    @if($errors->has('password') && $errors->first('password') !== 'パスワードと一致しません')
-                        {{ $errors->first('password') }}
-                    @endif
+                    @error('password')
+                        {{ $message }}
+                    @enderror
                 </p>
             </div>
 
