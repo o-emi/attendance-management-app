@@ -1,11 +1,12 @@
+@php
+    $isPending = $isPending ?? false;
+    $latestRequest = $latestRequest ?? null;
+@endphp
+
 <div class="attendance-detail__group">
     <label class="attendance-detail__label">出勤・退勤</label>
 
     <div class="attendance-detail__content attendance-detail__input-row">
-
-        @php
-            $latestRequest = $attendance->correctionRequests()->latest()->first();
-        @endphp
 
         @if($isPending)
             <span class="attendance-detail__text">
