@@ -1,3 +1,7 @@
+@php
+    $isPending = $isPending ?? false;
+@endphp
+
 <div class="attendance-detail__group">
     <label class="attendance-detail__label">
         {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
@@ -38,10 +42,6 @@
                     class="attendance-detail__input"
                     value="{{ old('break_end.' . $index, $break->break_end ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '') }}"
                 >
-
-                @error("break_end.$index")
-                    <p class="attendance-detail__error-text">{{ $message }}</p>
-                @enderror
             </div>
         @endif
     </div>
