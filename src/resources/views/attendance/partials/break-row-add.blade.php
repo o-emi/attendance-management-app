@@ -1,3 +1,7 @@
+@php
+    $isPending = $isPending ?? false;
+@endphp
+
 <div class="attendance-detail__group">
     <label class="attendance-detail__label">
         {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
@@ -60,10 +64,6 @@
                             : '')
                     ) }}"
                 >
-
-                @error("break_end.$index")
-                    <p class="attendance-detail__error-text">{{ $message }}</p>
-                @enderror
             </div>
         @endif
     </div>

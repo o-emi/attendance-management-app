@@ -16,7 +16,7 @@ class AttendanceUpdateRequest extends FormRequest
     {
         return [
             'clock_in'  => ['required', 'date_format:H:i'],
-            'clock_out' => ['required', 'date_format:H:i', 'after:clock_in'],
+            'clock_out' => ['required', 'date_format:H:i'],
 
             'break_start.*' => ['nullable', 'date_format:H:i'],
             'break_end.*'   => ['nullable', 'date_format:H:i'],
@@ -43,8 +43,15 @@ class AttendanceUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
 
-            $clockIn  = Carbon::createFromFormat('H:i', $this->clock_in);
-            $clockOut = Carbon::createFromFormat('H:i', $this->clock_out);
+            if ($this->clock_in && $this->clock_out) {
+
+                $clockIn  = Carbon::createFromFormat('H:i', $this->clock_in);
+                $clockOut = Carbon::createFromFormat('H:i', $this->clock_out);
+
+                if ($clockIn->gte($clockOut)) {
+                    $validator->errors()->add('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
+                }
+    }
 
             $starts = $this->break_start ?? [];
             $ends   = $this->break_end ?? [];

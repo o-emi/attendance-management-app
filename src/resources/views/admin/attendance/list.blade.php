@@ -10,9 +10,9 @@
 <div class="attendance">
     <div class="attendance__inner">
 
-        <h2 class="attendance__title">
+        <h1 class="attendance__title">
             {{ \Carbon\Carbon::parse($date)->format('Y年n月j日') }}の勤怠
-        </h2>
+        </h1>
 
         <nav class="attendance__nav date-nav">
             <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->subDay()->toDateString()]) }}"
@@ -46,35 +46,27 @@
                 </thead>
 
                 <tbody class="attendance-table__body">
-
                     @foreach($users as $user)
-
                         @php
                             $attendance = $user->attendances->first();
                         @endphp
 
                         <tr class="attendance-table__row">
-
                             <td class="attendance-table__item">
                                 {{ $user->name }}
                             </td>
-
                             <td class="attendance-table__item">
                                 {{ $attendance?->clock_in?->format('H:i') }}
                             </td>
-
                             <td class="attendance-table__item">
                                 {{ $attendance?->clock_out?->format('H:i') }}
                             </td>
-
                             <td class="attendance-table__item">
                                 {{ $attendance?->break_total }}
                             </td>
-
                             <td class="attendance-table__item">
                                 {{ $attendance?->work_total }}
                             </td>
-
                             <td class="attendance-table__item">
                                 @if($attendance)
                                     <a href="{{ route('admin.attendance.show', $attendance->id) }}"
@@ -83,16 +75,11 @@
                                     </a>
                                 @endif
                             </td>
-
                         </tr>
-
                     @endforeach
-
                 </tbody>
-
             </table>
         </div>
-
     </div>
 </div>
 @endsection
