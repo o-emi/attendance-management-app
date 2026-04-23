@@ -65,7 +65,7 @@
             @endif
 
             @include('attendance.partials.note-row', [
-                'note' => $isPending
+                'remark' => $isPending
                     ? $latestRequest->note
                     : $attendance->remark,
                 'isPending' => $isPending
