@@ -22,4 +22,18 @@ class RegisterTest extends TestCase
             'name' => 'お名前を入力してください',
         ]);
     }
-}
+
+    public function test_email_is_required_for_registration()
+    {
+        $response = $this->from('/register')->post('/register', [
+            'name' => 'テスト太郎',
+            'email' => '',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        
+    }
+}$response->assertSessionHasErrors([
+            'email' => 'メールアドレスを入力してください',
+        ]);
