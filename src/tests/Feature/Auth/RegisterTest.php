@@ -32,8 +32,22 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        
-    }
-}$response->assertSessionHasErrors([
+        $response->assertSessionHasErrors([
             'email' => 'メールアドレスを入力してください',
         ]);
+    }
+
+    public function test_password_must_be_at_least_8_characters()
+    {
+        $response = $this->from('/register')->post('/register', [
+            'name' => 'テスト太郎',
+            'email' => 'test@example.com',
+            'password' => '1234567',
+            'password_confirmation' => '1234567',
+        ]);
+
+        $response->assertSessionHasErrors([
+            'password' => 'パスワードは8文字以上で入力してください',
+        ]);
+    }
+}
