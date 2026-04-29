@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class AdminLoginTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_email_is_required()
     {
-        $response = $this->from('/login')->post('/login', [
+        $response = $this->from('/admin/login')->post('/admin/login', [
             'email' => '',
             'password' => 'password',
         ]);
@@ -24,7 +24,7 @@ class LoginTest extends TestCase
 
     public function test_password_is_required()
     {
-        $response = $this->from('/login')->post('/login', [
+        $response = $this->from('/admin/login')->post('/admin/login', [
             'email' => 'user@example.com',
             'password' => '',
         ]);
@@ -34,36 +34,38 @@ class LoginTest extends TestCase
         ]);
     }
 
-    public function test_login_fails_with_invalid_credentials()
+    public function test_admin_login_fails_with_invalid_credentials()
     {
         User::factory()->create([
-            'email' =>'user@example.com',
+            'email' =>'admin@example.com',
             'password' => bcrypt('password'),
+            'role' => 'admin',
         ]);
 
-        $response = $this->from('/login')->post('/login', [
-            'email' => 'wron@example.com',
+        $response = $this->from('/admin/login')->post('/admin/login', [
+            'email' => 'wrong@example.com',
             'password' => 'password',
         ]);
 
         $response->assertSessionHasErrors([
-            'email' => 'ログイン情報が登録されていません',
+            'email' => 'ログイン情報が登録されていません。',
         ]);
     }
 
-    public function test_user_can_login_with_valid_credentials()
+    public function test_admin_can_login_with_valid_credentials()
     {
         User::factory()->create([
             'email' => 'user@example.com',
             'password' => bcrypt('password'),
+            'role' => 'admin',
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->post('/admin/login', [
             'email' => 'user@example.com',
             'password' => 'password',
         ]);
 
-        $response->assertRedirect('/attendance');
+        $response->assertRedirect('/admin/attendance/list');
 
         $this->assertAuthenticated();
     }
