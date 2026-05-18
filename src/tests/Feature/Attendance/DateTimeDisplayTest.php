@@ -10,11 +10,8 @@ use Carbon\Carbon;
 
 class DateTimeDisplayTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    use RefreshDatabase;
+
     public function test_current_datetime_is_displayed_in_correct_format()
     {
         Carbon::setTestNow(Carbon::create(2024, 4, 1, 9, 30));
