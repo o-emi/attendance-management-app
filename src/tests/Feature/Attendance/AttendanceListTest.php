@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class AttendanceListTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_all_own_attendance_records_are_displayed()
     {
         $user = User::factory()->create();
