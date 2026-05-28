@@ -41,4 +41,37 @@ class RequestListTest extends TestCase
         $response->assertSee($attendance->work_date->format('Y/m/d'));
         $response->assertSee($correctionRequest->note);
     }
+
+    public function test_admin_approved_requests_are_displayed()
+    {
+        $user = User::factory()->create();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-05-15',
+            'clock_in' => '09:00',
+            'clock_out' => '18:00',
+        ]);
+
+        $correctionRequest = CorrectionRequest::create([
+            'user_id' => $user->id,
+            'attendance_id' => $attendance->id,
+            'start_time' => '10:00',
+            'end_time' => '19:00',
+            'note' => '電車遅延のため',
+            'status' => 'pending',
+        ]);
+
+        $correctionRequest->update([
+            'status' => 'approved',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get(route('stamp_correction_request.list', ['status' => 'approved']));
+
+        $response->assertStatus(200);
+        $response->assertSee($correctionRequest->user->name);
+        $response->assertSee($attendance->work_date->format('Y/m/d'));
+        $response->assertSee($correctionRequest->note);
+    }
 }
