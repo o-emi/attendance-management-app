@@ -81,7 +81,7 @@ class AttendanceUpdateRequest extends FormRequest
                     $validator->errors()->add("break_end.$i", '休憩時間が不適切な値です');
                 }
 
-                if ($startTime->lt($clockIn)) {
+                if ($startTime->lt($clockIn) || $startTime->gt($clockOut)) {
                     $validator->errors()->add("break_start.$i", '休憩時間が不適切な値です');
                 }
 
