@@ -131,7 +131,8 @@ class AttendanceController extends Controller
 
         $latestRequest = $attendance->correctionRequests()
             ->with('breakTimes')
-            ->latest()
+            ->where('status', 'pending')
+            ->latest('id')
             ->first();
 
         return view('attendance.show', compact('attendance', 'latestRequest'));

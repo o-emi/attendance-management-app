@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AttendanceDetailTest extends TestCase
+class DetailTest extends TestCase
 {
     use RefreshDatabase;
 

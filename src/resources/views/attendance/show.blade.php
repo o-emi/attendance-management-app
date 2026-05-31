@@ -13,8 +13,6 @@
         <h2 class="attendance-detail__title">勤怠詳細</h2>
 
         @php
-            $latestRequest = $attendance->correctionRequests()->latest()->first();
-
             $isPending = $latestRequest && $latestRequest->status === 'pending';
 
             $displayBreaks = $isPending
@@ -66,7 +64,7 @@
                 @endif
 
                 @include('attendance.partials.note-row', [
-                    'note' => $displayNote,
+                    'remark' => $displayNote,
                     'isPending' => $isPending
                 ])
             </div>
