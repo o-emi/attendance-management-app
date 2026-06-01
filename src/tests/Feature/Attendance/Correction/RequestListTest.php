@@ -74,7 +74,7 @@ class RequestListTest extends TestCase
         $response->assertSee($attendance->work_date->format('Y/m/d'));
         $response->assertSee($correctionRequest->note);
     }
-    // 勤怠詳細画面に遷移する
+
     public function test_detail_button_redirects_to_attendance_detail()
     {
         $user = User::factory()->create();
