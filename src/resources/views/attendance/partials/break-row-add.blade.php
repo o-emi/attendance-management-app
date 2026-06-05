@@ -1,6 +1,6 @@
 @php
     $isPending = $isPending ?? false;
-    $break = $break ?? null;
+    $break = null;
 @endphp
 
 <div class="attendance-detail__group">
