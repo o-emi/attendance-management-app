@@ -71,4 +71,63 @@ class AttendanceShowTest extends TestCase
         ]);
     }
 
+    public function test_error_message_is_displayed_when_break_start_is_after_clock_out()
+    {
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $user = User::factory()->create();
+
+        $attendance = Attendance::factory()->create([
+            'user_id' => $user->id,
+            'work_date' => Carbon::create(2026, 6, 1),
+            'clock_in' => '09:00:00',
+            'clock_out' => '18:00:00',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->from(route('admin.attendance.show', $attendance->id))
+            ->put(route('admin.attendance.update', $attendance->id), [
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
+                'break_start' => ['19:00'],
+                'break_end' => ['17:30'],
+                'remark' => '修正申請',
+            ]);
+
+        $response->assertSessionHasErrors([
+            'break_start.0' => '休憩時間が不適切な値です',
+        ]);
+    }
+
+    public function test_error_message_is_displayed_when_break_end_is_after_clock_out()
+    {
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $user = User::factory()->create();
+
+        $attendance = Attendance::factory()->create([
+            'user_id' => $user->id,
+            'work_date' => Carbon::create(2026, 6, 1),
+            'clock_in' => '09:00:00',
+            'clock_out' => '18:00:00',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->from(route('admin.attendance.show', $attendance->id))
+            ->put(route('admin.attendance.update', $attendance->id), [
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
+                'break_start' => ['19:00'],
+                'break_end' => ['19:00'],
+                'remark' => '修正申請',
+            ]);
+
+        $response->assertSessionHasErrors([
+            'break_end.0' => '休憩時間が不適切な値です',
+        ]);
+    }
 }
