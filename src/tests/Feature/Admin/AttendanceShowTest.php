@@ -130,4 +130,34 @@ class AttendanceShowTest extends TestCase
             'break_end.0' => '休憩時間が不適切な値です',
         ]);
     }
+
+    public function test_error_message_is_displayed_when_remark_is_empty()
+    {
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $user = User::factory()->create();
+
+        $attendance = Attendance::factory()->create([
+            'user_id' => $user->id,
+            'work_date' => Carbon::create(2026, 6, 1),
+            'clock_in' => '09:00:00',
+            'clock_out' => '18:00:00',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->from(route('admin.attendance.show', $attendance->id))
+            ->put(route('admin.attendance.update', $attendance->id), [
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
+                'break_start' => ['19:00'],
+                'break_end' => ['18:00'],
+                'remark' => '',
+            ]);
+
+        $response->assertSessionHasErrors([
+            'remark' => '備考を記入してください',
+        ]);
+    }
 }
