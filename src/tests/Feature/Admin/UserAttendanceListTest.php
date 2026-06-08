@@ -112,5 +112,40 @@ class UserAttendanceListTest extends TestCase
         Carbon::setTestNow();
     }
 
+    public function test_clicking_detail_link_redirects_to_attendance_detail_page()
+    {
+        Carbon::setTestNow('2026-06-01 09:00:00');
+
+        $admin = User::factory()->create([
+            'role' => 'admin'
+        ]);
+
+        $user = User::factory()->create([
+            'role' => 'user',
+        ]);
+
+        $attendance = Attendance::factory()->create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-15',
+            'clock_in' => '2026-06-15 10:00:00',
+            'clock_out' => '2026-06-15 19:00:00',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.staff.attendance', [
+                'id' => $user->id,
+                'month' => '2026-06',
+            ]));
+        $response->assertStatus(200);
+        $response->assertSee(route('admin.attendance.show', $attendance->id));
+
+        $detailResponse = $this->actingAs($admin)
+        ->get(route('admin.attendance.show', $attendance->id));
+        $detailResponse->assertStatus(200);
+        $detailResponse->assertSeeText('勤怠詳細');
+        
+        Carbon::setTestNow();
+    }
+
 
 }
