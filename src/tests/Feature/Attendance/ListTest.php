@@ -70,7 +70,6 @@ class ListTest extends TestCase
         $response->assertSeeText('10:00');
     }
 
-     // 翌月ボタンで翌月の情報が表示される
     public function test_next_month_attendance_records_are_displayed()
     {
         $user = User::factory()->create();
@@ -90,8 +89,6 @@ class ListTest extends TestCase
         $response->assertSeeText('10:00');
     }
 
-
-        // 詳細ボタンで勤怠詳細画面に遷移する
     public function test_clicking_detail_link_redirects_to_attendance_detail_page()
     {
         $user = User::factory()->create();
