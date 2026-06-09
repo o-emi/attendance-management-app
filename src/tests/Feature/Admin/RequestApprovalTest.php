@@ -24,8 +24,8 @@ class RequestApprovalTest extends TestCase
         $attendance = Attendance::create([
             'user_id' => $user->id,
             'work_date' => '2026-05-15',
-            'clock_in' => '09:00',
-            'clock_out' => '18:00',
+            'start_time' => '10:00',
+            'end_time' => '19:00',
         ]);
 
         $correctionRequest = CorrectionRequest::create([
@@ -41,8 +41,8 @@ class RequestApprovalTest extends TestCase
             ->get(route('admin.request.show', $correctionRequest->id));
 
         $response->assertStatus(200);
-        $response->assertSee($correctionRequest->clock_in);
-        $response->assertSee($correctionRequest->clock_out);
+        $response->assertSee($correctionRequest->start_time);
+        $response->assertSee($correctionRequest->end_time);
         $response->assertSee($correctionRequest->note);
     }
 }
