@@ -66,7 +66,7 @@ class CorrectionRequestController extends Controller
             }
         });
 
-            return redirect()->route('admin.request.list',['status'        =>         'approved'])
+            return redirect()->route('admin.request.list',['status' => 'approved'])
                 ->with('success', '承認しました');
             }
 }
