@@ -7,6 +7,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Illuminate\Support\Facades\URL;
 
 class EmailVerificationTest extends TestCase
 {
@@ -38,5 +39,27 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('認証はこちらから');
         $response->assertSee('http://localhost:8025');
+    }
+
+    public function test_verified_is_redirected_to_attendance_page()
+    {
+        $user = User::factory()->unverified()->create();
+
+        $this->actingAs($user);
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+        [
+            'id' => $user->id,
+            'hash' => sha1($user->email),
+        ]
+    );
+
+        $response = $this->get($verificationUrl);
+
+        $response->assertRedirect(route('attendance.index'));
+
+
     }
 }
