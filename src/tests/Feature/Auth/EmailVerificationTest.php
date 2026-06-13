@@ -59,7 +59,5 @@ class EmailVerificationTest extends TestCase
         $response = $this->get($verificationUrl);
 
         $response->assertRedirect(route('attendance.index'));
-
-
     }
 }
