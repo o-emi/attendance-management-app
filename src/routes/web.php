@@ -73,6 +73,10 @@ Route::middleware(['auth','verified'])->group(function () {
         [AttendanceController::class, 'requestList'])
         ->name('stamp_correction_request.list');
 
+    Route::get('/attendance/report',
+        [AttendanceReportController::class, 'index'])
+        ->name('attendance.report');
+
     });
 
     Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])
