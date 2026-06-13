@@ -14,7 +14,7 @@
             メール認証を完了してください。
         </p>
 
-        @if (app()->environment('local'))
+        @if (app()->environment(['local', 'testing']))
             <div class="verify-email-form__action">
                 <a href="http://localhost:8025" target="_blank" class="btn-verify">
                 認証はこちらから
