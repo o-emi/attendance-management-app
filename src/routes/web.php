@@ -10,6 +10,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin\CorrectionRequestController;
 use App\Models\User;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\AttendanceReportController;
 
 
 Route::middleware('guest')->group(function () {

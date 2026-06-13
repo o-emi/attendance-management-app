@@ -1,0 +1,10 @@
+.report {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.report__title {
+    font-size: 24px;
+    font-weight: bold;
+}
