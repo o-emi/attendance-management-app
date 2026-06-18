@@ -32,5 +32,35 @@
             </div>
         </div>
     </section>
+
+    <section class="attendance-report__section">
+        <h2 class="attendance-report__section-title">
+            月次推移（過去6ヶ月）
+        </h2>
+
+        <table class="attendance-report__table">
+            <thead>
+                <tr class="attendance-report__row">
+                    <th class="attendance-report__header">月</th>
+                    <th class="attendance-report__header">労働時間</th>
+                    <th class="attendance-report__header">残業時間</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="attendance-report__row">
+                    <td class="attendance-report__cell">2025-12</td>
+                    <td class="attendance-report__cell">120h 0m</td>
+                    <td class="attendance-report__cell">0h 0m</td>
+                </tr>
+
+                <tr class="attendance-report__row">
+                    <td class="attendance-report__cell">2026-01</td>
+                    <td class="attendance-report__cell">120h 0m</td>
+                    <td class="attendance-report__cell">0h 0m</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 </div>
 @endsection

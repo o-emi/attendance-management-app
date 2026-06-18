@@ -48,3 +48,25 @@
     font-size: 22px;
     font-weight: 700;
 }
+
+/* 月次推移テーブル */
+.attendance-report__table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.attendance-report__header {
+    padding: 10px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.attendance-report__cell {
+    padding: 10px 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
