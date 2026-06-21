@@ -18,7 +18,7 @@
         <div class="attendance-report__summary-list">
             <div class="attendance-report__summary-card">
                 <p class="attendance-report__summary-label">総労働時間</p>
-                <p class="attendance-report__summary-value">744h 0m</p>
+                <p class="attendance-report__summary-value">{{ $totalHours }}h {{ $totalMinutes }}m</p>
             </div>
 
             <div class="attendance-report__summary-card">
