@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AttendanceReportController;
 use App\Models\Attendance;
 use Carbon\Carbon;
 
@@ -26,12 +23,19 @@ class AttendanceReportController extends Controller
             ])
             ->get();
 
+        // 総労働時間
         $totalWorkSeconds = 0;
 
+        // 総残業時間
+        $totalOvertimeSeconds = 0;
+
         foreach ($attendances as $attendance) {
+
+            // １日の労働時間
             $workSeconds = Carbon::parse($attendance->clock_in)
                 ->diffInSeconds(Carbon::parse($attendance->clock_out));
 
+            // １日の休憩時間
             $breakSeconds = 0;
 
             foreach ($attendance->breakTimes as $breakTime) {
@@ -39,21 +43,36 @@ class AttendanceReportController extends Controller
                     ->diffInSeconds(Carbon::parse($breakTime->break_end));
             }
 
+            // １日の実労働時間
             $actualWorkSeconds = $workSeconds - $breakSeconds;
 
             $totalWorkSeconds += $actualWorkSeconds;
 
-            $totalHours = (int) floor($totalWorkSeconds / 3600);
+            // １日の残業時間
+            $standardEndTime = Carbon::parse($attendance->work_date)
+                ->setTime(18, 0, 0);
 
-            $remainingSeconds = $totalWorkSeconds % 3600;
+            $clockOut = Carbon::parse($attendance->clock_out);
 
-            $totalMinutes = (int) floor($remainingSeconds / 60);
+            if ($clockOut->gt($standardEndTime)) {
+                $totalOvertimeSeconds += $standardEndTime->diffInSeconds($clockOut);
+            }
 
         }
 
+        $totalHours = (int) floor($totalWorkSeconds / 3600);
+        $remainingSeconds = $totalWorkSeconds % 3600;
+        $totalMinutes = (int) floor($remainingSeconds / 60);
+
+        $totalOvertimeHours = (int) floor($totalOvertimeSeconds / 3600);
+        $remainingOvertimeSeconds = $totalOvertimeSeconds % 3600;
+        $totalOvertimeMinutes = (int) floor($remainingOvertimeSeconds / 60);
+
         return view('attendance.report', compact(
             'totalHours',
-            'totalMinutes'
+            'totalMinutes',
+            'totalOvertimeHours',
+            'totalOvertimeMinutes'
         ));
     }
 }

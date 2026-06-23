@@ -23,7 +23,7 @@
 
             <div class="attendance-report__summary-card">
                 <p class="attendance-report__summary-label">総残業時間</p>
-                <p class="attendance-report__summary-value">10h 0m</p>
+                <p class="attendance-report__summary-value">{{ $totalOvertimeHours }}h {{ $totalOvertimeMinutes }}m</p>
             </div>
 
             <div class="attendance-report__summary-card">
