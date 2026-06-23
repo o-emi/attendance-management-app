@@ -59,20 +59,34 @@ class AttendanceReportController extends Controller
             }
 
         }
-
+        // 総労働時間を時間・分に変換
         $totalHours = (int) floor($totalWorkSeconds / 3600);
         $remainingSeconds = $totalWorkSeconds % 3600;
         $totalMinutes = (int) floor($remainingSeconds / 60);
 
+        // 総残業時間を時間・分に変換
         $totalOvertimeHours = (int) floor($totalOvertimeSeconds / 3600);
         $remainingOvertimeSeconds = $totalOvertimeSeconds % 3600;
         $totalOvertimeMinutes = (int) floor($remainingOvertimeSeconds / 60);
+
+        // 平均労働時間
+        $attendanceCount = $attendances->count();
+
+        $averageWorkSeconds = $attendanceCount > 0
+            ? $totalWorkSeconds / $attendanceCount
+            : 0;
+
+        $averageWorkHours = (int) floor($averageWorkSeconds / 3600);
+        $remainingAverageSeconds = $averageWorkSeconds % 3600;
+        $averageWorkMinutes = (int) floor($remainingAverageSeconds / 60);
 
         return view('attendance.report', compact(
             'totalHours',
             'totalMinutes',
             'totalOvertimeHours',
-            'totalOvertimeMinutes'
+            'totalOvertimeMinutes',
+            'averageWorkHours',
+            'averageWorkMinutes'
         ));
     }
 }

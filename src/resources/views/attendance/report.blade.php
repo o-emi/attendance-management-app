@@ -28,7 +28,7 @@
 
             <div class="attendance-report__summary-card">
                 <p class="attendance-report__summary-label">平均労働時間 / 日</p>
-                <p class="attendance-report__summary-value">8h 5m</p>
+                <p class="attendance-report__summary-value">{{ $averageWorkHours }}h {{ $averageWorkMinutes }}m</p>
             </div>
         </div>
     </section>
