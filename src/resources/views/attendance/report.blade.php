@@ -48,35 +48,21 @@
             </thead>
 
             <tbody>
-                <tr class="attendance-report__row">
-                    <td class="attendance-report__cell">2026-02</td>
-                    <td class="attendance-report__cell">120h 0m</td>
-                    <td class="attendance-report__cell">0h 0m</td>
-                </tr>
+                @foreach ($monthlyReports as $monthlyReport)
+                    <tr class="attendance-report__row">
+                        <td class="attendance-report__cell">
+                            {{ $monthlyReport['month'] }}
+                        </td>
 
-                <tr class="attendance-report__row">
-                    <td class="attendance-report__cell">2026-03</td>
-                    <td class="attendance-report__cell">120h 0m</td>
-                    <td class="attendance-report__cell">0h 0m</td>
-                </tr>
+                        <td class="attendance-report__cell">
+                            {{ $monthlyReport['work_hours'] }}h {{ $monthlyReport['work_minutes'] }}m
+                        </td>
 
-                <tr class="attendance-report__row">
-                    <td class="attendance-report__cell">2026-04</td>
-                    <td class="attendance-report__cell">120h 0m</td>
-                    <td class="attendance-report__cell">0h 0m</td>
-                </tr>
-
-                <tr class="attendance-report__row">
-                    <td class="attendance-report__cell">2026-05</td>
-                    <td class="attendance-report__cell">120h 0m</td>
-                    <td class="attendance-report__cell">0h 0m</td>
-                </tr>
-
-                <tr class="attendance-report__row">
-                    <td class="attendance-report__cell">2026-06</td>
-                    <td class="attendance-report__cell">120h 0m</td>
-                    <td class="attendance-report__cell">0h 0m</td>
-                </tr>
+                        <td class="attendance-report__cell">
+                            {{ $monthlyReport['overtime_hours'] }}h {{ $monthlyReport['overtime_minutes'] }}m
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </section>

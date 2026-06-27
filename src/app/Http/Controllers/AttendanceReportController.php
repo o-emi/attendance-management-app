@@ -80,13 +80,76 @@ class AttendanceReportController extends Controller
         $remainingAverageSeconds = $averageWorkSeconds % 3600;
         $averageWorkMinutes = (int) floor($remainingAverageSeconds / 60);
 
+        // 月次推移
+        $monthlyReports = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $month = Carbon::now()->subMonths($i);
+
+            $startDate = $month->copy()->startOfMonth();
+
+            $endDate = $month->copy()->endOfMonth();
+
+            $attendances = Attendance::with('breakTimes')
+                ->where('user_id', $user->id)
+                ->whereBetween('work_date', [$startDate, $endDate])
+                    ->get();
+
+            $monthlyWorkSeconds = 0;
+            $monthlyOvertimeSeconds = 0;
+
+            foreach ($attendances as $attendance) {
+                // ①出勤～退勤の秒数
+                $workSeconds = Carbon::parse($attendance->clock_in)
+                    ->diffInSeconds(Carbon::parse($attendance->clock_out));
+
+                // ②休憩秒数を入れる箱
+                $breakSeconds = 0;
+
+                // ③休憩を1件ずつ足す
+                foreach ($attendance->breakTimes as $breakTime) {
+                    $breakSeconds += Carbon::parse($breakTime->break_start)
+                        ->diffInSeconds(Carbon::parse($breakTime->break_end));
+                }
+
+                // ④実労働時間秒数を月合計に足す
+                $monthlyWorkSeconds += $workSeconds - $breakSeconds;
+
+                $standardEndTime = Carbon::parse($attendance->work_date)
+                    ->setTime(18, 0, 0);
+
+                $clockOut = Carbon::parse($attendance->clock_out);
+
+                if ($clockOut->gt($standardEndTime)) {
+                    $monthlyOvertimeSeconds += $standardEndTime->diffInSeconds($clockOut);
+                }
+            }
+
+            $monthlyWorkHours = (int) floor($monthlyWorkSeconds / 3600);
+            $remainingMonthlyWorkSeconds = $monthlyWorkSeconds % 3600;
+            $monthlyWorkMinutes = (int) floor($remainingMonthlyWorkSeconds / 60);
+
+            $monthlyOvertimeHours = (int) floor($monthlyOvertimeSeconds / 3600);
+            $remainingMonthlyOvertimeSeconds = $monthlyOvertimeSeconds % 3600;
+            $monthlyOvertimeMinutes = (int) floor($remainingMonthlyOvertimeSeconds / 60);
+
+            $monthlyReports[] = [
+                'month' => $month->format('Y/m'),
+                'work_hours' => $monthlyWorkHours,
+                'work_minutes' => $monthlyWorkMinutes,
+                'overtime_hours' => $monthlyOvertimeHours,
+                'overtime_minutes' => $monthlyOvertimeMinutes,
+            ];
+        }
+
         return view('attendance.report', compact(
             'totalHours',
             'totalMinutes',
             'totalOvertimeHours',
             'totalOvertimeMinutes',
             'averageWorkHours',
-            'averageWorkMinutes'
+            'averageWorkMinutes',
+            'monthlyReports'
         ));
     }
 }
