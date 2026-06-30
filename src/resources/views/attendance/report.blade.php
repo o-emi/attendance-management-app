@@ -77,7 +77,7 @@
         <div class="attendance-report__anomaly-list">
             <div class="attendance-report__anomaly-card">
                 <p class="attendance-report__anomaly-label">遅刻回数</p>
-                <p class="attendance-report__anomaly-value">2回</p>
+                <p class="attendance-report__anomaly-value">{{ $lateCount }}回</p>
             </div>
 
             <div class="attendance-report__anomaly-card">

@@ -23,10 +23,10 @@ class AttendanceReportController extends Controller
             ])
             ->get();
 
-        // 総労働時間
+        // ◆総労働時間
         $totalWorkSeconds = 0;
 
-        // 総残業時間
+        // ◆総残業時間
         $totalOvertimeSeconds = 0;
 
         foreach ($attendances as $attendance) {
@@ -72,7 +72,7 @@ class AttendanceReportController extends Controller
         $remainingOvertimeSeconds = $totalOvertimeSeconds % 3600;
         $totalOvertimeMinutes = (int) floor($remainingOvertimeSeconds / 60);
 
-        // 平均労働時間
+        // ◆平均労働時間
         $attendanceCount = $attendances->count();
 
         $averageWorkSeconds = $attendanceCount > 0
@@ -83,7 +83,7 @@ class AttendanceReportController extends Controller
         $remainingAverageSeconds = $averageWorkSeconds % 3600;
         $averageWorkMinutes = (int) floor($remainingAverageSeconds / 60);
 
-        // 月次推移
+        // ◆月次推移
         $monthlyReports = [];
 
         for ($i = 5; $i >= 0; $i--) {
@@ -148,6 +148,31 @@ class AttendanceReportController extends Controller
             ];
         }
 
+        // ◆今月の異常検知
+        $lateCount = 0;
+        $earlyLeaveCount = 0;
+        $longWorkCount = 0;
+
+        $currentMonthAttendances = Attendance::with('breakTimes')
+            ->where('user_id', $user->id)
+            ->whereBetween('work_date',[
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+            ->get();
+
+        foreach ($currentMonthAttendances as $attendance) {
+            // 遅刻
+            $standardStartTime = Carbon::parse($attendance->work_date)
+                ->setTime(9, 0, 0);
+
+            $clockIn = Carbon::parse($attendance->clock_in);
+
+            if ($clockIn->gt($standardStartTime)) {
+                $lateCount++;
+            }
+        }
+
         return view('attendance.report', compact(
             'totalHours',
             'totalMinutes',
@@ -155,7 +180,8 @@ class AttendanceReportController extends Controller
             'totalOvertimeMinutes',
             'averageWorkHours',
             'averageWorkMinutes',
-            'monthlyReports'
+            'monthlyReports',
+            'lateCount'
         ));
     }
 }
