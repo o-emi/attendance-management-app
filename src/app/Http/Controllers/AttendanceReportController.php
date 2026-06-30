@@ -52,13 +52,16 @@ class AttendanceReportController extends Controller
             $standardEndTime = Carbon::parse($attendance->work_date)
                 ->setTime(18, 0, 0);
 
-            $clockOut = Carbon::parse($attendance->clock_out);
+            $clockOut = Carbon::parse($attendance->work_date)
+                ->setTimeFromTimeString(
+                    Carbon::parse($attendance->clock_out)->format('H:i:s')
+            );
 
             if ($clockOut->gt($standardEndTime)) {
                 $totalOvertimeSeconds += $standardEndTime->diffInSeconds($clockOut);
             }
-
         }
+
         // 総労働時間を時間・分に変換
         $totalHours = (int) floor($totalWorkSeconds / 3600);
         $remainingSeconds = $totalWorkSeconds % 3600;
@@ -118,7 +121,10 @@ class AttendanceReportController extends Controller
                 $standardEndTime = Carbon::parse($attendance->work_date)
                     ->setTime(18, 0, 0);
 
-                $clockOut = Carbon::parse($attendance->clock_out);
+                $clockOut = Carbon::parse($attendance->work_date)
+                    ->setTimeFromTimeString(
+                    Carbon::parse($attendance->clock_out)->format('H:i:s')
+                );
 
                 if ($clockOut->gt($standardEndTime)) {
                     $monthlyOvertimeSeconds += $standardEndTime->diffInSeconds($clockOut);
