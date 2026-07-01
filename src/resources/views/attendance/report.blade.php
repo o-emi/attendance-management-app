@@ -82,7 +82,7 @@
 
             <div class="attendance-report__anomaly-card">
                 <p class="attendance-report__anomaly-label">早退回数</p>
-                <p class="attendance-report__anomaly-value">1回</p>
+                <p class="attendance-report__anomaly-value">{{ $earlyLeaveCount }}回</p>
             </div>
 
             <div class="attendance-report__anomaly-card">
