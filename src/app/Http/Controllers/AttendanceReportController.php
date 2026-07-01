@@ -166,22 +166,36 @@ class AttendanceReportController extends Controller
             $standardStartTime = Carbon::parse($attendance->work_date)
                 ->setTime(9, 0, 0);
 
-            $clockIn = Carbon::parse($attendance->clock_in);
+            $clockIn = Carbon::parse($attendance->work_date)
+                ->setTimeFromTimeString(
+                    Carbon::parse($attendance->clock_in)->format('H:i:s')
+            );
 
             if ($clockIn->gt($standardStartTime)) {
                 $lateCount++;
             }
 
-        // 早退
+            // 早退
             $standardEndTime = Carbon::parse($attendance->work_date)
                 ->setTime(18, 0, 0);
 
-            $clockOut = Carbon::parse($attendance->clock_out);
+            $clockOut = Carbon::parse($attendance->work_date)
+                ->setTimeFromTimeString(
+                    Carbon::parse($attendance->clock_out)->format('H:i:s')
+            );;
 
             if ($clockOut->lt($standardEndTime)) {
                 $earlyLeaveCount++;
             }
+
+            // 長時間労働日数
+            $actualWorkSeconds = $workSeconds - $breakSeconds;
+
+            if ($actualWorkSeconds > 10 * 60 * 60) {
+                $longWorkCount++;
             }
+
+        }
 
         return view('attendance.report', compact(
             'totalHours',
@@ -192,7 +206,8 @@ class AttendanceReportController extends Controller
             'averageWorkMinutes',
             'monthlyReports',
             'lateCount',
-            'earlyLeaveCount'
+            'earlyLeaveCount',
+            'longWorkCount'
         ));
     }
 }

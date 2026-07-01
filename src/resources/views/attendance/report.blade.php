@@ -87,7 +87,7 @@
 
             <div class="attendance-report__anomaly-card">
                 <p class="attendance-report__anomaly-label">長時間労働日数</p>
-                <p class="attendance-report__anomaly-value">1日</p>
+                <p class="attendance-report__anomaly-value">{{ $longWorkCount }}日</p>
             </div>
         </div>
     </section>
