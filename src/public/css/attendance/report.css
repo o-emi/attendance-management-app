@@ -1,0 +1,105 @@
+.attendance-report {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px;
+}
+
+.attendance-report__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.attendance-report__description {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 28px;
+}
+
+.attendance-report__section {
+    margin-top: 28px;
+}
+
+.attendance-report__section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.attendance-report__summary-list {
+    display: flex;
+    gap: 12px;
+}
+
+.attendance-report__summary-card {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.attendance-report__summary-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.attendance-report__summary-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* 月次推移テーブル */
+.attendance-report__table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.attendance-report__header {
+    padding: 10px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.attendance-report__cell {
+    padding: 10px 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 異常検知ブロック */
+.attendance-report__standard {
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #666;
+}
+
+.attendance-report__anomaly-list {
+    display: flex;
+    gap: 12px;
+}
+
+.attendance-report__anomaly-card {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.attendance-report__anomaly-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.attendance-report__anomaly-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}

@@ -10,6 +10,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin\CorrectionRequestController;
 use App\Models\User;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\AttendanceReportController;
 
 
 Route::middleware('guest')->group(function () {
@@ -72,6 +73,10 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/stamp_correction_request/list',
         [AttendanceController::class, 'requestList'])
         ->name('stamp_correction_request.list');
+
+    Route::get('/attendance/report',
+        [AttendanceReportController::class, 'index'])
+        ->name('attendance.report');
 
     });
 
