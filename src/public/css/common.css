@@ -47,3 +47,46 @@
 .nav-link:hover, .nav-link-btn:hover {
     opacity: 0.8;
 }
+
+/* 1400px ～ 1540px */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .header__inner {
+        padding: 0 24px;
+    }
+
+    .nav-list {
+        gap: 24px;
+        flex-wrap: nowrap;
+    }
+
+    .nav-link,
+    .nav-link-btn {
+        font-size: 14px;
+        white-space: nowrap;
+    }
+}
+
+/* 768px ～ 850px */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .header__inner {
+        padding: 0 12px;
+    }
+
+    .header__logo img {
+        width: 240px;
+    }
+
+    .nav-list {
+        gap: 20px;
+        flex-wrap: nowrap;
+    }
+
+    .nav-link,
+    .nav-link-btn {
+        display: inline-block;
+        width: auto;
+        min-width: max-content;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+}
